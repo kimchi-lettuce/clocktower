@@ -10,7 +10,6 @@
 
 import type * as devboard_tickets from "../devboard/tickets.js";
 import type * as http from "../http.js";
-import type * as myFunctions from "../myFunctions.js";
 
 import type {
   ApiFromModules,
@@ -21,7 +20,6 @@ import type {
 declare const fullApi: ApiFromModules<{
   "devboard/tickets": typeof devboard_tickets;
   http: typeof http;
-  myFunctions: typeof myFunctions;
 }>;
 
 /**

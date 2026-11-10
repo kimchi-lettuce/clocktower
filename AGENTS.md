@@ -16,9 +16,10 @@ In-person game night, everyone on their own phone, one human Storyteller. Storyt
 
 ## Working rules
 
-- Read [docs/agent-lessons.md](docs/agent-lessons.md) before nontrivial work. For backend work also read [docs/technical/convex-backend-standard.md](docs/technical/convex-backend-standard.md) and [convex/AGENTS.md](convex/AGENTS.md), and read `convex/_generated/ai/guidelines.md` before touching Convex runtime wiring.
+- Start with [docs/status.md](docs/status.md): what exists, what is deliberately unbuilt, and what is still open. Then read [docs/agent-lessons.md](docs/agent-lessons.md) before nontrivial work. For backend work also read [docs/technical/convex-backend-standard.md](docs/technical/convex-backend-standard.md) and [convex/AGENTS.md](convex/AGENTS.md), and read `convex/_generated/ai/guidelines.md` before touching Convex runtime wiring.
 - Track development work on the in-app dev board at `/dev/board` (localhost only, no login). When a prompt introduces new work, add it as a ticket there too. Do not open a separate tracker.
 - For UI work read [docs/design/principles.md](docs/design/principles.md) first, then use tokens from `packages/design/src/tokens.css` mapped to Tailwind utilities. Do not use colours outside those tokens.
+- Update [docs/status.md](docs/status.md) at the end of any session that changes what exists or what is open.
 - Keep durable decisions in [docs/technical/decisions.md](docs/technical/decisions.md) and [docs/product/decisions.md](docs/product/decisions.md), dated, the day they are made.
 - The toolchain is Vite+ (`vp`, e.g. `node_modules/.bin/vp`): `vp build`, `vp dev`, `vp test`, `vp check` (`--fix` to autofix). There is no standalone `vite` binary — never run bare `vite`.
 - Commit in small logical slices and push promptly. Never commit secrets, real player data, or `.env.local`.
@@ -32,5 +33,8 @@ When working on Convex code, **always read
 `convex/_generated/ai/guidelines.md` first** for important guidelines on
 how to correctly use Convex APIs and patterns. The file contains rules that
 override what you may have learned about Convex from training data.
+
+Convex agent skills for common tasks can be installed by running
+`npx convex ai-files install`.
 
 <!-- convex-ai-end -->

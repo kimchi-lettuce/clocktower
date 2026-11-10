@@ -40,13 +40,14 @@ docs/        product, design, and technical docs
 1. Install [Node.js](https://nodejs.org/) and [pnpm](https://pnpm.io/).
 2. `pnpm install`
 3. `cp .env.example .env.local`
-4. `pnpm run convex:dev` — follow the prompts to create a Convex development deployment. Keep this terminal open; it writes `VITE_CONVEX_URL` into `.env.local`.
+4. `pnpm run convex:dev` — follow the prompts to create a Convex development deployment. Keep this terminal open. It writes `CONVEX_URL` and `CONVEX_SITE_URL` into `.env.local`; the app reads the `VITE_` versions, so copy both values across (see `.env.example`).
 5. In a second terminal: `pnpm run dev` and open the URL Vite prints (normally <http://localhost:3000>).
 
 The app is a static SPA, so deploying it means hosting `apps/app`'s build output and pointing it at a Convex deployment. There is no app server.
 
 ## Notes
 
+- [Status and handover](../docs/status.md) — read this first if you are picking the project up
 - [Architecture](../docs/technical/architecture.md) — how the pieces fit, including the rules engine boundary
 - [Convex backend standard](../docs/technical/convex-backend-standard.md) — how backend code is organised
 - [Agent lessons](../docs/agent-lessons.md) — read before nontrivial work

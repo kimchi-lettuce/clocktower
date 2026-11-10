@@ -4,6 +4,7 @@ Pages are split by audience: `product/` and `design/` explain what the game is a
 
 ## Reading order
 
+0. [Status and handover](status.md) — where the project is right now, and what is undecided
 1. [Vision](product/vision.md) — what this is, and what it deliberately is not
 2. [Glossary](product/glossary.md) — the game's words, one meaning each
 3. [Product decisions](product/decisions.md) — dated product choices
