@@ -1,0 +1,121 @@
+@import "@christonline/design";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--brand-font-body);
+  color: var(--brand-ink);
+  background: var(--brand-surface);
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--brand-space-2) var(--brand-space-3);
+}
+
+.wordmark {
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: 0.01em;
+}
+
+.wordmark-accent {
+  color: var(--brand-accent);
+}
+
+nav a {
+  margin-left: var(--brand-space-2);
+  color: var(--brand-ink);
+  text-decoration: none;
+}
+
+.nav-cta {
+  border: 1px solid var(--brand-accent);
+  border-radius: var(--brand-radius-md);
+  padding: 0.4rem 0.9rem;
+}
+
+.hero {
+  max-width: 46rem;
+  margin: var(--brand-space-4) auto;
+  padding: 0 var(--brand-space-2);
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 2.75rem;
+  margin: 0 0 var(--brand-space-2);
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin: 0 0 var(--brand-space-3);
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--brand-space-2);
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--brand-radius-md);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background: var(--brand-accent);
+  color: white;
+}
+
+.btn-ghost {
+  border: 1px solid var(--brand-accent);
+  color: var(--brand-accent);
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--brand-space-2);
+  max-width: 60rem;
+  margin: var(--brand-space-3) auto;
+  padding: 0 var(--brand-space-2);
+}
+
+.feature {
+  background: var(--brand-card);
+  border-radius: var(--brand-radius-lg);
+  padding: var(--brand-space-2);
+}
+
+.feature h2 {
+  margin: 0 0 var(--brand-space-1);
+  font-size: 1.15rem;
+}
+
+.feature p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.cta {
+  max-width: 46rem;
+  margin: var(--brand-space-4) auto;
+  padding: 0 var(--brand-space-2);
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+  padding: var(--brand-space-2);
+  font-size: 0.9rem;
+}

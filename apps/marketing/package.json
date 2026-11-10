@@ -1,0 +1,17 @@
+{
+  "name": "@christonline/marketing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev",
+    "build": "vp build",
+    "preview": "vp preview"
+  },
+  "devDependencies": {
+    "vite": "8.3.3",
+    "vite-plus": "1.3.0"
+  },
+  "dependencies": {
+    "@christonline/design": "workspace:*"
+  }
+}

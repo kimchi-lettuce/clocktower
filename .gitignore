@@ -1,0 +1,16 @@
+.env.local
+
+node_modules/
+dist/
+
+# Tool-local state and generated caches
+.claude/
+.devcontainer/
+.tanstack/
+.pnpm-store/
+.venv/
+__pycache__/
+*.pyc
+
+# OS artifacts
+.DS_Store

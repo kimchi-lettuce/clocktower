@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Git for Daniel — ChristOnline</title>
+  <style>
+    :root { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height:1.55; color:#14202a; }
+    body { background:#f4f6f8; margin:0; padding:32px 16px; }
+    main { max-width:860px; margin:0 auto; background:#fff; padding:32px; border-radius:14px; box-shadow:0 2px 6px rgba(0,0,0,.08); }
+    h1 { margin:0 0 8px; font-size:1.9rem; }
+    h2 { margin-top:22px; font-size:1.22rem; }
+    p { margin-top:0; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.92em; }
+    pre { background:#12232f; color:#f6fbff; padding:14px 16px; border-radius:10px; overflow-x:auto; line-height:1.6; }
+    pre code { color:#f6fbff; }
+    .badge { display:inline-block; background:#e9f4ea; color:#256029; padding:3px 10px; border-radius:999px; font-size:.8rem; font-weight:600; }
+    .steps { margin-top:0; padding-left:1.1rem; }
+    .steps li + li { margin-top:6px; }
+    .card { background:#f6f8fa; border:1px solid #dce3e8; border-radius:12px; padding:14px 16px; margin:12px 0; }
+    .muted { color:#596b7b; }
+    .footer { margin-top:26px; font-size:.9rem; color:#596b7b; border-top:1px solid #dce3e8; padding-top:10px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Git for Daniel</h1>
+    <p class="muted">A quick, friendly explanation for the ChristOnline project.</p>
+
+    <span class="badge">We use the <code>main</code> branch</span>
+
+    <h2>What Git is</h2>
+    <p>
+      Git is a <strong>time machine for the project</strong>.
+      It keeps a history of saved changes, lets us see who changed what, and lets everyone work from the same shared copy on GitHub.
+    </p>
+
+    <svg viewBox="0 0 760 200" class="diagram" role="img" aria-label="A diagram showing edit files, commit, push to GitHub, and pull back">
+      <rect x="40" y="70" width="160" height="90" rx="14" fill="#e8f1f9" stroke="#5a7fa5"/>
+      <text x="120" y="102" text-anchor="middle" font-size="16" fill="#243a4d">Your Mac</text>
+      <text x="120" y="128" text-anchor="middle" font-size="13" fill="#59707f">Edit files</text>
+
+      <rect x="300" y="70" width="160" height="90" rx="14" fill="#eef4ec" stroke="#5f8f5c"/>
+      <text x="380" y="102" text-anchor="middle" font-size="16" fill="#305c34">Local Git history</text>
+      <text x="380" y="128" text-anchor="middle" font-size="13" fill="#578a55">commit</text>
+
+      <rect x="560" y="70" width="160" height="90" rx="14" fill="#f8f2e9" stroke="#b08745"/>
+      <text x="640" y="102" text-anchor="middle" font-size="16" fill="#5e431c">GitHub</text>
+      <text x="640" y="128" text-anchor="middle" font-size="13" fill="#967a52">push / pull</text>
+
+      <path d="M200 110 L295 110" fill="none" stroke="#4f6473" stroke-width="2"/>
+      <text x="250" y="96" text-anchor="middle" font-size="13" fill="#4f6473">commit</text>
+      <path d="M460 110 L555 110" fill="none" stroke="#4f6473" stroke-width="2"/>
+      <text x="510" y="96" text-anchor="middle" font-size="13" fill="#4f6473">push</text>
+      <path d="M555 140 L460 140" fill="none" stroke="#4f6473" stroke-width="2"/>
+      <text x="510" y="164" text-anchor="middle" font-size="13" fill="#4f6473">pull</text>
+    </svg>
+
+    <h2>Getting started</h2>
+    <ol class="steps">
+      <li>Create a GitHub account at <a href="https://github.com/signup">github.com/signup</a>.</li>
+      <li>If Git isn’t installed yet, run the first command below.</li>
+      <li>Copy and paste the commands into Terminal.</li>
+      <li>If Git asks for sign-in, follow the prompts.</li>
+    </ol>
+
+    <pre><code>xcode-select --install
+git --version
+git clone https://github.com/kimchi-lettuce/christ-online.git
+cd christ-online</code></pre>
+
+    <p class="muted">If macOS asks for developer tools, accept the install prompt. When the commands finish, you’ll have the project on your Mac.</p>
+
+    <h2>Daily workflow</h2>
+    <div class="card">
+      <strong>1. Get the latest changes</strong><br>
+      <code>git pull</code>
+    </div>
+
+    <div class="card">
+      <strong>2. Save your work</strong><br>
+      <code>git add .</code><br>
+      <code>git commit -m "Short description of what you changed"</code>
+    </div>
+
+    <div class="card">
+      <strong>3. Share your work</strong><br>
+      <code>git push</code>
+    </div>
+
+    <div class="card">
+      <strong>4. Check what changed</strong><br>
+      <code>git status</code><br>
+      This shows what you have changed before you commit.
+    </div>
+
+    <p>We’ll keep it simple: <strong>pull → edit → commit → push</strong>.</p>
+
+    <div class="footer">
+      <p>If something looks confusing or you get an error, stop and ask. You don’t need to force push or delete anything.</p>
+    </div>
+  </main>
+</body>
+</html>

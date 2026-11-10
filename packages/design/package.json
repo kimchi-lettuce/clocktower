@@ -1,0 +1,8 @@
+{
+  "name": "@christonline/design",
+  "private": true,
+  "exports": {
+    ".": "./src/tokens.css",
+    "./tokens.css": "./src/tokens.css"
+  }
+}

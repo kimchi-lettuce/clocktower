@@ -1,0 +1,45 @@
+@import "tailwindcss" source("../");
+@import "@christonline/design";
+
+/*
+ * Map brand tokens onto Tailwind utilities (bg-accent, text-ink, rounded-md...).
+ * The default Tailwind palette is switched off so UI stays on-brand and
+ * drift is caught in review rather than accumulating quietly.
+ */
+@theme inline {
+  --color-*: initial;
+
+  --color-ink: var(--brand-ink);
+  --color-muted: var(--brand-ink-muted);
+  --color-surface: var(--brand-surface);
+  --color-card: var(--brand-card);
+  --color-line: var(--brand-line);
+  --color-accent: var(--brand-accent);
+  --color-accent-soft: var(--brand-accent-soft);
+  --color-success: var(--brand-success);
+  --color-warning: var(--brand-warning);
+  --color-danger: var(--brand-danger);
+
+  --font-sans: var(--brand-font-body);
+
+  --radius-sm: var(--brand-radius-sm);
+  --radius-md: var(--brand-radius-md);
+  --radius-lg: var(--brand-radius-lg);
+}
+
+body {
+  margin: 0;
+  font-family: var(--brand-font-body);
+  color: var(--brand-ink);
+  background: var(--brand-surface);
+}
+
+a {
+  margin-right: 1rem;
+}
+
+main {
+  text-align: center;
+  padding: 1em;
+  margin: 0 auto;
+}

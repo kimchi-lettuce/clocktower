@@ -1,0 +1,38 @@
+/*
+ * Single source of truth for the ChristOnline look.
+ * Plain CSS variables, so both the app (mapped into Tailwind by the theme)
+ * and the marketing site (used directly) stay in step.
+ * The "why" behind these values lives in docs/design/brand.md.
+ */
+:root {
+  /* Color — core */
+  --brand-ink: #1a1b2e;
+  --brand-ink-muted: #565a72;
+  --brand-surface: #faf9f7;
+  --brand-card: #ffffff;
+  --brand-line: #e3e0da;
+
+  /* Color — brand accent */
+  --brand-accent: #2c5f8a;
+  --brand-accent-soft: #e8f0f7;
+
+  /* Color — status */
+  --brand-success: #2f7d4f;
+  --brand-warning: #b4711f;
+  --brand-danger: #b3402f;
+
+  /* Type */
+  --brand-font-body: Gordita, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+    "Helvetica Neue", sans-serif;
+
+  /* Shape */
+  --brand-radius-sm: 0.25rem;
+  --brand-radius-md: 0.5rem;
+  --brand-radius-lg: 1rem;
+
+  /* Space */
+  --brand-space-1: 0.5rem;
+  --brand-space-2: 1rem;
+  --brand-space-3: 2rem;
+  --brand-space-4: 4rem;
+}
