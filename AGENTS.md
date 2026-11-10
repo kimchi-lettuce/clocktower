@@ -11,8 +11,8 @@ In-person game night, everyone on their own phone, one human Storyteller. Storyt
 - **Hidden information is the product.** Every read is a per-viewer projection computed on the server (`gameView(viewer)`). Never add a query that returns full game state, and never ship a debug query that does. A player must not be able to learn another player's character by reading their own network traffic.
 - **The rules engine is pure.** Rules live in plain TypeScript that takes state in and returns state plus events out — no Convex imports, no Effect, no `Date.now()`, no `Math.random()`. Randomness arrives as a seed. Convex mutations are thin adapters around it. See [architecture](docs/technical/architecture.md).
 - **Characters are data.** Ability text, night-order position, alignment, and targeting constraints live in tables, not in control flow, so fixing a rule is a data edit and a second script is a content drop.
-- **Content accuracy beats invention.** Ability text and night order must match the official almanac. When a rule is unclear, record the uncertainty in a comment or a ticket rather than guessing silently.
-- **No official art, no monetisation, and the trademark is not the product name.** This is an unofficial play aid.
+- **Content accuracy beats invention.** Ability text and night order must match the original game. Nobody on this project owns a physical copy, so faithfulness comes from cross-checking two independent sources and from a rules-savvy player reviewing the data, not from memory. When a rule is unclear, record the uncertainty in a comment or a ticket rather than guessing silently.
+- **No official art and no charge.** Keep the ability text faithful to the original game; this is an unofficial play aid.
 
 ## Working rules
 

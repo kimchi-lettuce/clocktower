@@ -126,9 +126,9 @@ export const STARTER_DEV_TICKETS: StarterDevTicket[] = [
     labels: ["engine", "tests"],
   },
   {
-    title: "Transcribe the Trouble Brewing script into character data",
+    title: "Import the Trouble Brewing script as character data",
     description:
-      "22 rows: name, alignment, paraphrased-for-UI ability text, night-order position for first night and other nights, targeting constraints, and which script it belongs to. Text and order must match the official almanac. This is a data edit, never code.",
+      "Start from a community script JSON (the hobby format already carries characters, night order, and constraints) instead of typing 22 rows. Nobody here owns a physical copy, so verify with two independent sources that agree (the community JSON plus an official or well-maintained reference), and get a rules-experienced player to review the finished 22 rows. Store the exact ability text as data plus a shortened line for the UI. Adopt the community file shape so a second script is an import, not a rewrite.",
     status: "backlog",
     priority: "high",
     labels: ["content", "data-model"],

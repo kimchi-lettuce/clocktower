@@ -52,7 +52,7 @@ The app is a static SPA, so deploying it means hosting `apps/app`'s build output
 - [Agent lessons](../docs/agent-lessons.md) — read before nontrivial work
 - The in-app dev board at `/dev/board` tracks development work (localhost only, no login)
 
-Character names and ability text belong to The Pandemonium Institute. This is an unofficial fan tool: no official art, no monetisation, and content is transcribed from the published rules for play support only.
+Unofficial fan tool for private play: no official art, no ads, no charge. Character names and ability text belong to The Pandemonium Institute.
 
 <!-- convex-ai-start -->
 

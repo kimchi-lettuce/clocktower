@@ -21,6 +21,14 @@ minimumReleaseAgeExclude:
   - vite-plus@1.3.0
 
 overrides:
+  # @effect/platform-node@4.0.1 depends on @effect/platform-node-shared with a
+  # caret range, but the Effect 4 packages move in lockstep with `effect`
+  # itself, which we pin exactly. A floating resolution (4.1.x) imports
+  # internals that do not exist in effect@4.0.1, and `confect codegen` dies
+  # with ERR_MODULE_NOT_FOUND on effect/dist/process/CommandLine.js.
+  # Pin the sibling to the version that matches, so regenerating the lockfile
+  # is safe.
+  "@effect/platform-node-shared": 4.0.1
   electron-to-chromium: 1.5.445
   nanostores: 1.5.4
   # Route every `vite` resolution through Vite+'s bundled core so the app,
