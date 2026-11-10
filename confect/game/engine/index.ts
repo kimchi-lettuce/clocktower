@@ -2,6 +2,7 @@ export * from "./types";
 export * from "./rng";
 export * from "./composition";
 export * from "./deal";
+export * from "./cast";
 export * from "./vote";
 export * from "./death";
 export * from "./nightOrder";

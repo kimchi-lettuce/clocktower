@@ -15,6 +15,7 @@ import { GameViewSchema } from "./viewSchema";
  */
 
 const game: Game = {
+  code: "TEST1",
   scriptId: "trouble-brewing",
   status: "night",
   nightNumber: 2,

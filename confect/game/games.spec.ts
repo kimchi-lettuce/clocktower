@@ -68,8 +68,11 @@ const start = FunctionSpec.publicMutation({
   args: () => ({
     gameId: GameId,
     deviceKey: DeviceKey,
-    /** The Storyteller's chosen cast, one entry per seat. */
-    cast: Schema.Array(Schema.String),
+    /**
+     * The Storyteller's chosen cast, one entry per seat. Omit it to let the
+     * server take the chart's share of each alignment in script order.
+     */
+    cast: Schema.optional(Schema.Array(Schema.String)),
   }),
   returns: () => Schema.Union([StartSuccess, StartFailure]),
 });

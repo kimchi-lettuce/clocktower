@@ -48,6 +48,7 @@ function gameFromSeed(seed: number, playerCount = 8): Game {
   });
 
   return {
+    code: "TEST1",
     scriptId: "trouble-brewing",
     status: "day",
     nightNumber: 2,
@@ -203,6 +204,7 @@ describe("gameView", () => {
     // Half or more of the living, rounding up: 11 alive needs 6, 8 alive needs 4.
     expect(view.voteThreshold).toBe(4);
     expect(view.seats).toHaveLength(8);
+    expect(view.code).toBe("TEST1");
     expect(view.seats[0]).toEqual({
       seatIndex: 1,
       name: "Ana",

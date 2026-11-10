@@ -38,6 +38,7 @@ export function seatsFor(playerCount: number) {
 
 export function gameWithRoles(roleIdBySeat: string[]): Game {
   return {
+    code: "TEST1",
     scriptId: "trouble-brewing",
     status: "day",
     nightNumber: 1,

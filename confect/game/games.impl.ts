@@ -7,6 +7,7 @@ import databaseSchema from "../_generated/schema";
 import { DatabaseReader, DatabaseWriter } from "../_generated/services";
 import { chooseRedHerring, newRoomCode, resolveViewer, toEngineGame } from "./adapter";
 import { SCRIPT_ID, TOWNSFOLK, TROUBLE_BREWING, findCharacter } from "./content/troubleBrewing";
+import { defaultCast } from "./engine/cast";
 import { compositionFor } from "./engine/composition";
 import { dealRoles } from "./engine/deal";
 import { gameView } from "./engine/view";
@@ -148,7 +149,10 @@ const start = FunctionImpl.make(databaseSchema, games, "start", (args) =>
       .index("by_game_and_seat_index", (q) => q.eq("gameId", game._id))
       .take(MAX_SEATS);
 
-    const cast = args.cast.map((characterId) => findCharacter(characterId));
+    const chosen =
+      args.cast ?? defaultCast(script, seats.length).map((character) => character.characterId);
+
+    const cast = chosen.map((characterId) => findCharacter(characterId));
     if (cast.some((character) => character === undefined)) {
       return { ok: false, reason: "unknown-character", detail: null } as const;
     }

@@ -60,6 +60,7 @@ export function toEngineGame(params: {
     }));
 
   return {
+    code: params.game.code,
     scriptId: params.game.scriptId,
     status: params.game.status,
     nightNumber: params.game.nightNumber,

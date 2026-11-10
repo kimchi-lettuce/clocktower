@@ -47,6 +47,8 @@ export type Seat = {
 };
 
 export type Game = {
+  /** The short code people type to join. Public to everyone at the table. */
+  code: string;
   scriptId: string;
   status: GameStatus;
   nightNumber: number;

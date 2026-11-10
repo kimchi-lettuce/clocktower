@@ -34,6 +34,7 @@ export const PublicSeatViewSchema = Schema.Struct({
 });
 
 export const PublicGameViewSchema = Schema.Struct({
+  code: Schema.String,
   scriptId: Schema.String,
   status: StatusSchema,
   nightNumber: Schema.Number,

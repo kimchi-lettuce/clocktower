@@ -142,17 +142,17 @@ export const STARTER_DEV_TICKETS: StarterDevTicket[] = [
     labels: ["backend", "security", "tests"],
   },
   {
-    title: "Wire the app to the game functions",
+    title: "Wire the app to the game functions (lobby)",
     description:
-      "The backend has create / join / start / view, tested. Nothing on screen calls them: the lobby needs a create button, the room code as text and QR, a seat claim, and a lock. This is the last step before a real table can be seated.",
-    status: "backlog",
+      "The lobby at / creates a room, joins by code or by link, lists the seats, copies the join link, and lets the Storyteller deal and begin. Verified end to end against the dev deployment: create, five joins, rejoin on the same device, start, then a storyteller view with a grimoire, a player view with only their own role, a spectator view with no roles, and a non-Storyteller refused the start.",
+    status: "done",
     priority: "high",
     labels: ["frontend", "product"],
   },
   {
-    title: "Room code join flow with guest identity",
+    title: "Seat recovery: QR, PIN, and reassignment",
     description:
-      "Per-game 5-char code, link, and QR; device-bound guest session in local storage; per-seat 4-digit PIN for a changed device; Storyteller can reassign a seat. Lobby locks when the game starts. No accounts.",
+      "The code, the link and the device-bound guest session are built (lobby route + library/guest.ts). Still missing: a QR code for the room, a per-seat 4-digit PIN so a player whose phone died can reclaim their seat, and a Storyteller control to hand a seat to a new device.",
     status: "backlog",
     priority: "high",
     labels: ["backend", "identity", "product"],

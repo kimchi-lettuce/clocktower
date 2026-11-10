@@ -40,6 +40,8 @@ export type PublicSeatView = {
 };
 
 export type PublicGameView = {
+  /** The room code, so a phone can show or re-share the way in. */
+  code: string;
   scriptId: string;
   status: GameStatus;
   nightNumber: number;
@@ -119,6 +121,7 @@ function publicSeatView(seat: Game["seats"][number]): PublicSeatView {
 function publicGameView(game: Game): PublicGameView {
   const aliveCount = countAlive(game);
   return {
+    code: game.code,
     scriptId: game.scriptId,
     status: game.status,
     nightNumber: game.nightNumber,
