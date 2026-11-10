@@ -22,5 +22,5 @@
     "types": ["node"]
   },
   "include": ["./**/*", "../confect/**/*.ts"],
-  "exclude": ["./_generated"]
+  "exclude": ["./_generated", "../confect/**/*.test.ts", "../confect/**/*.spec.test.ts"]
 }

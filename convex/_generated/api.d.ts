@@ -9,6 +9,7 @@
  */
 
 import type * as devboard_tickets from "../devboard/tickets.js";
+import type * as game_games from "../game/games.js";
 import type * as http from "../http.js";
 
 import type {
@@ -19,6 +20,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   "devboard/tickets": typeof devboard_tickets;
+  "game/games": typeof game_games;
   http: typeof http;
 }>;
 

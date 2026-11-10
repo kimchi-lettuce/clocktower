@@ -22,13 +22,18 @@ The reasoning behind it is a Storyteller walkthrough kept outside this repo, in 
 - A Convex development deployment (created 2026-11-11); `.env.local` holds both `CONVEX_URL`/`CONVEX_SITE_URL` and their `VITE_` mirrors that the app reads
 - Documentation: vision, both decision logs, glossary, design principles, architecture, backend standard
 - **Tables** (`confect/tables/`): `character`, `game`, `seat`, `nightStep`, `nomination`, `gameEvent`
-- **The rules engine** (`confect/game/engine/`): pure modules for composition, seeded dealing, vote thresholds and day resolution, death and win conditions, and night-order construction. 64 tests, collected by `vp test` (the include glob now covers `confect/**/*.test.ts`)
+- **The rules engine** (`confect/game/engine/`): pure modules for composition, seeded dealing, vote thresholds and day resolution, death and win conditions, night-order construction, and `gameView`
+- **The projection** (`confect/game/engine/view.ts`): one function that takes the full state plus a `Viewer` (`storyteller` / `player` / `spectator`) and returns only what that person may know. `view.test.ts` is the leak test: a property test over 40 deals that walks every `*characterId` in each view and proves no player sees another seat's role, the Drunk never sees the word drunk, and the red herring appears in no view but the Storyteller's
+- **The Convex surface** (`confect/game/games.spec.ts` + `games.impl.ts`): `create` (room code + seed), `join` (seat claim by device), `start` (Storyteller picks the cast; the engine deals and the red herring is chosen), and `view` — the only way to read a game, deriving the viewer from the device key rather than trusting a claim. The view is validated on the way out by `viewSchema.ts`, which rejects an unexpected field such as a grimoire in a player's view
+- 89 tests, collected by `vp test` (the include glob covers `confect/**/*.test.ts`); `pnpm exec tsc --noEmit -p convex` is clean
 - **The Trouble Brewing script** (`confect/game/content/troubleBrewing.ts`): all 22 characters with verbatim ability text, a one-line UI text, alignment, and night-order positions. Ability text is verified word for word against four independent references, and both night-order sequences match the printed first-night and other-nights sheets line for line. Each character also carries the sheet's Storyteller instruction for its step (`firstNightNote` / `otherNightNote`), which is what the night screen will display
 - A dev board queue carrying the build order
 
 ## What does not exist yet
 
-- **No Confect functions and no game screens.** The engine is pure and tested, but nothing calls it yet: there is no `gameView` projection, no `confect/game/*.spec.ts` / `*.impl.ts`, and no lobby, seat claim, or night wizard.
+- **No game screens.** The backend can create, join, start and project a game, but no screen calls it yet: no lobby, no seat claim UI, no night wizard, no QR code.
+- **No night wizard state.** `nightStep` rows exist in the schema but nothing writes them; the engine can build the order, and no function persists it.
+- **No ability resolution.** What each character does at its step is still the Storyteller's job with no app help.
 - **No character ability resolution.** The engine models the sequence and the rules around it; what each character *does* at its step (who the Fortune Teller is shown, what a poisoned player is told) is not implemented. Nothing yet seeds the content into Convex — the character rows are imported by a mutation that does not exist.
 - The starter auth screens remain (`login-signup-form.tsx`, `_authed/dashboard`), and the dashboard is now a placeholder rather than the demo it used to be.
 - The design tokens are placeholders.
@@ -37,9 +42,9 @@ The reasoning behind it is a Storyteller walkthrough kept outside this repo, in 
 
 In order; the rest is on the dev board.
 
-1. **`gameView(viewer)` and the leak test** — the projection is the product's safety property, and it is the next thing that cannot be deferred. The content now gives the leak test real character names to look for.
-2. **Join flow** — room code, link, QR, guest identity, seat PIN, lobby lock. Without it there is no way to reach a real table.
-3. **Ability resolution for the first cast** — eight characters, driven by the night steps that already exist.
+1. **Join flow on screen** — the backend exists and is tested; the missing half is the screens: create a room, show a code and QR, claim a seat, lock the lobby.
+2. **The night wizard for the first cast** — persist the night steps, show the Storyteller's instruction from the content (`firstNightNote` / `otherNightNote`), and resolve the eight first-cast abilities with poisoning applied first.
+3. **Seat-tap voting** — the engine resolves votes; the screen that records raised hands is the other half.
 
 ## Open questions
 
@@ -55,11 +60,12 @@ Deliberately unresolved; each should be answered by building or by a playtest, n
 
 ## How to verify the repo is healthy
 
-Tests: `vp test` (64 passing). Full health check:
+Tests: `vp test` (89 passing). Full health check:
 
 ```bash
 pnpm install           # do not regenerate the lockfile casually: see the pnpm override note
 pnpm exec confect codegen
-pnpm exec vp check     # format + lint + typecheck
+pnpm exec vp check     # format + lint
+pnpm exec tsc6 --noEmit -p convex   # typecheck the backend
 pnpm --filter @clocktower/app build
 ```

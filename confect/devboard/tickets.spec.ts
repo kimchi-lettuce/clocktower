@@ -137,9 +137,17 @@ export const STARTER_DEV_TICKETS: StarterDevTicket[] = [
     title: "gameView projection plus the leak test",
     description:
       "One query returning a discriminated union on viewer kind (storyteller / player / spectator), redacted on the server. Property test: no viewever receives a character name that isn't theirs, except the Minion/Demon pair. This is the highest-value test in the repo.",
-    status: "backlog",
+    status: "done",
     priority: "high",
     labels: ["backend", "security", "tests"],
+  },
+  {
+    title: "Wire the app to the game functions",
+    description:
+      "The backend has create / join / start / view, tested. Nothing on screen calls them: the lobby needs a create button, the room code as text and QR, a seat claim, and a lock. This is the last step before a real table can be seated.",
+    status: "backlog",
+    priority: "high",
+    labels: ["frontend", "product"],
   },
   {
     title: "Room code join flow with guest identity",

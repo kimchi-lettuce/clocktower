@@ -69,7 +69,9 @@ export function dealRoles(params: DealParams): DealResult {
   const dealtSeats: Seat[] = seats.map((seat, index) => {
     const role = dealt[index]!;
     const isDrunk = role.characterId === "drunk";
-    const believed = isDrunk && (pick(rng, unclaimedTownsfolk) ?? pick(rng, townsfolkPool));
+    const believed = isDrunk
+      ? (pick(rng, unclaimedTownsfolk) ?? pick(rng, townsfolkPool))
+      : undefined;
 
     return {
       seatIndex: seat.seatIndex,
