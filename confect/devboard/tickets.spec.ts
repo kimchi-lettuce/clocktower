@@ -166,6 +166,14 @@ export const STARTER_DEV_TICKETS: StarterDevTicket[] = [
     labels: ["frontend", "engine", "product"],
   },
   {
+    title: "Storyteller-driven reveals: wake lock, dim screen, best-effort buzz",
+    description:
+      "Player phones stay dark all night. The Storyteller taps a seat to reveal information; that seat's phone shows it. Keep the tab alive with the Screen Wake Lock API, render the reveal in a very dim palette, and fire navigator.vibrate() only where it exists (Android) as a hint. The grimoire marks which seats can buzz, so the Storyteller knows who needs a shoulder tap. Never wait for a device acknowledgement.",
+    status: "backlog",
+    priority: "medium",
+    labels: ["frontend", "night", "design"],
+  },
+  {
     title: "Dim night mode and haptics",
     description:
       "Night screens must not light a face up in a dark room. Dim, dark-red, minimal; prefer a haptic wake over a glowing notification. See docs/design/principles.md.",

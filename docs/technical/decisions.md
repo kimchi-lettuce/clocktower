@@ -24,6 +24,13 @@ Dated architecture decisions. Newest first. Carried-over entries (pre-2026-11-11
 - **Considered and rejected:** Email/password accounts (friction with no benefit for a two-hour game); rejoin-by-name (collides, and invites impersonation); a link with no code (the link becomes a permanent password in a group chat).
 - **Consequence:** Because guests are anonymous, game creation needs rate limiting and games need an expiry job, or hosting cost has no ceiling.
 
+## 2026-11-11 — Night wake is a Storyteller shoulder tap; buzzing is best effort
+
+- **Decision:** The Storyteller wakes players physically, as in the physical game, and triggers a *reveal* on a specific seat from their own phone. The seat's phone shows the information when the Storyteller says so. Vibration, if it happens at all, is a hint that the reveal is waiting — never the mechanism.
+- **Why:** The Web Vibration API does not exist in iOS Safari at any version, so a buzz cannot be promised to roughly half the table. It also only fires on a visible, foreground page, which a phone in a pocket or a locked screen is not. Physical waking always works, needs no permission, and is what the game already does.
+- **Consequences:** (1) The Storyteller's grimoire marks which seats *can* buzz, so they know who needs a tap. (2) Seat phones need the Screen Wake Lock API to stay alive in the foreground, with a very dim UI so an awake screen still reads as dark. (3) Never gate the night sequence on a device acknowledgement — the Storyteller advances.
+- **Considered and rejected:** Waiting for a player to tap "ready" (blocks the night on a dead phone or a distracted player); web push to wake locked phones (needs an installed PWA, a permission prompt, and visible notifications — far heavier than a shoulder tap).
+
 ## 2026-11-11 — Votes are recorded by seat, not as a total
 
 - **Decision:** The Storyteller taps the seats whose hands went up. The app counts, compares against the computed threshold, and marks ghost votes spent.
