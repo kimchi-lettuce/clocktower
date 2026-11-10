@@ -64,10 +64,7 @@ export default function LoginSignupForm() {
           <form onSubmit={handleSubmit} class="space-y-5">
             {!isLogin() && (
               <div>
-                <label
-                  for="name"
-                  class="block text-sm font-medium text-muted mb-2"
-                >
+                <label for="name" class="block text-sm font-medium text-muted mb-2">
                   Full Name
                 </label>
                 <input
@@ -83,10 +80,7 @@ export default function LoginSignupForm() {
             )}
 
             <div>
-              <label
-                for="email"
-                class="block text-sm font-medium text-muted mb-2"
-              >
+              <label for="email" class="block text-sm font-medium text-muted mb-2">
                 Email Address
               </label>
               <input
@@ -101,10 +95,7 @@ export default function LoginSignupForm() {
             </div>
 
             <div>
-              <label
-                for="password"
-                class="block text-sm font-medium text-muted mb-2"
-              >
+              <label for="password" class="block text-sm font-medium text-muted mb-2">
                 Password
               </label>
               <input
@@ -120,11 +111,7 @@ export default function LoginSignupForm() {
 
             {error() && (
               <div class="bg-danger/10 border border-danger/20 text-danger px-4 py-3 rounded-md text-sm flex items-center gap-2">
-                <svg
-                  class="w-5 h-5 flex-shrink-0"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
+                <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fill-rule="evenodd"
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414 1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
@@ -140,11 +127,7 @@ export default function LoginSignupForm() {
               disabled={loading()}
               class="w-full px-4 py-3 rounded-md font-semibold text-white transition-colors duration-200 bg-accent hover:bg-accent/90"
             >
-              {loading()
-                ? "Processing..."
-                : isLogin()
-                  ? "Sign In"
-                  : "Create Account"}
+              {loading() ? "Processing..." : isLogin() ? "Sign In" : "Create Account"}
             </button>
           </form>
 
@@ -156,9 +139,7 @@ export default function LoginSignupForm() {
               }}
               class="text-sm text-muted hover:text-accent transition-colors duration-200 font-medium"
             >
-              {isLogin()
-                ? "Don't have an account? Sign up"
-                : "Already have an account? Sign in"}
+              {isLogin() ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
             </button>
           </div>
         </div>

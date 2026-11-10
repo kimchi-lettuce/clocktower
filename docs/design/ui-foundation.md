@@ -1,6 +1,6 @@
 # UI foundation
 
-Where ChristOnline's shared components come from, and why we did not adopt an off-the-shelf library yet. Written for a SWE audience; pairs with [brand.md](brand.md)-driven tokens in `packages/design/src/tokens.css`.
+Where Clocktower's shared components come from, and why we did not adopt an off-the-shelf library yet. Written for a SWE audience; pairs with [brand.md](brand.md)-driven tokens in `packages/design/src/tokens.css`.
 
 ## The question (2026-10-15)
 

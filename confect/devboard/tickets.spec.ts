@@ -80,89 +80,138 @@ export type StarterDevTicket = {
 };
 
 /*
- * Opening queue carried over from the 2026-10-15 work prompt. Seeded once by
- * the UI ("load starter tickets") when the board is empty.
+ * Opening queue for this repo. Seeded once by the UI ("load starter tickets")
+ * when the board is empty. Derived from the 2026-11-11 design session that
+ * produced docs/product/vision.md and docs/technical/decisions.md.
  */
 export const STARTER_DEV_TICKETS: StarterDevTicket[] = [
   {
-    title: "Confirm the four-role RBAC design with Daniel",
+    title: "Create the Convex deployment and fill .env.local",
     description:
-      "The roles/tenancy proposal is drafted in docs/technical/rbac-tenancy-design.md: Developer / Admin / Manager / Helper, scoped instead of global, tenancy recommendation Option A (one deployment, explicit church scoping). Daniel needs to confirm the names and the tenancy fork before any policy code is written.",
-    status: "in-progress",
+      "pnpm install, cp .env.example .env.local, pnpm run convex:dev, then confirm the app boots against the dev deployment. Nothing else can be verified until this works.",
+    status: "backlog",
     priority: "high",
-    labels: ["rbac", "product"],
+    labels: ["setup", "convex"],
   },
   {
-    title: "Migrate the starter `numbers` demo out of convex/myFunctions.ts",
+    title: "Delete the starter auth UI once guest join exists",
     description:
-      "The starter listNumbers/addNumber functions are demo functions. Their Confect-native replacements live in the myFunctions group; next step is to replace the dashboard demo card with a real first feature, then delete the demo group and table.",
+      "apps/app/src/components/login-signup-form.tsx and the _authed/dashboard route are church-starter remnants: email signup is exactly what this product does not do. Keep the Convex/Solid wiring they exercise, delete the screens, and replace them with the room-code lobby.",
     status: "backlog",
     priority: "medium",
-    labels: ["backend", "confect", "cleanup"],
+    labels: ["frontend", "identity", "fork-cleanup"],
   },
   {
-    title: "Implement the grants and role-policy domain (first RBAC slice)",
+    title: "Add confect/ tests to the vp test include glob",
     description:
-      "After Daniel confirms the roles: a grants table (person, role, scope), a centralized policy layer per the backend standard, and role-shaped projections. Follow docs/technical/rbac-tenancy-design.md.",
+      "Workspace vite.config.ts only collects apps/*/src and packages/*/src, so engine tests would never run. Add confect/**/*.{test,spec}.ts to test.include before writing the first engine suite.",
     status: "backlog",
     priority: "high",
-    labels: ["rbac", "backend", "security"],
+    labels: ["tooling", "tests"],
   },
   {
-    title: "Dev-board backend functions must be internalized before launch",
+    title: "Define the game domain tables",
     description:
-      "The devboard group is deliberately public and unauthenticated for localhost convenience. Before any real church data or launch, make these internal or gate them behind the Developer role.",
+      "game (phase, night number, seed, secret setup decisions, version), seat (real role, believed role, alive, ghost vote, statuses), step (night order entry + resolution), event (append-only log), vote/nomination. Follow docs/technical/architecture.md.",
+    status: "backlog",
+    priority: "high",
+    labels: ["backend", "data-model"],
+  },
+  {
+    title: "Pure engine skeleton with seeded randomness",
+    description:
+      "confect/game/engine/ with no Convex or Effect imports: role dealing from a seed, target validation, vote resolution with the computed threshold, death and win-condition checks. Tests call functions directly, no deployment required.",
+    status: "backlog",
+    priority: "high",
+    labels: ["engine", "tests"],
+  },
+  {
+    title: "Transcribe the Trouble Brewing script into character data",
+    description:
+      "22 rows: name, alignment, paraphrased-for-UI ability text, night-order position for first night and other nights, targeting constraints, and which script it belongs to. Text and order must match the official almanac. This is a data edit, never code.",
+    status: "backlog",
+    priority: "high",
+    labels: ["content", "data-model"],
+  },
+  {
+    title: "gameView projection plus the leak test",
+    description:
+      "One query returning a discriminated union on viewer kind (storyteller / player / spectator), redacted on the server. Property test: no viewever receives a character name that isn't theirs, except the Minion/Demon pair. This is the highest-value test in the repo.",
+    status: "backlog",
+    priority: "high",
+    labels: ["backend", "security", "tests"],
+  },
+  {
+    title: "Room code join flow with guest identity",
+    description:
+      "Per-game 5-char code, link, and QR; device-bound guest session in local storage; per-seat 4-digit PIN for a changed device; Storyteller can reassign a seat. Lobby locks when the game starts. No accounts.",
+    status: "backlog",
+    priority: "high",
+    labels: ["backend", "identity", "product"],
+  },
+  {
+    title: "Seat-tap vote recording",
+    description:
+      "Storyteller taps raised hands; app counts, compares to the computed threshold, and spends ghost votes. Dead seats with a spent ghost vote are not tappable. Record per-voter so the event log and review work.",
+    status: "backlog",
+    priority: "medium",
+    labels: ["frontend", "engine", "product"],
+  },
+  {
+    title: "Storyteller night wizard for the first three characters",
+    description:
+      "Poisoner, Fortune Teller, and Imp as the first slice: correct order per night number, illegal targets refused, poisoning applied before it matters, and a 'what do you tell them?' prompt where the app shows the truth privately and the Storyteller supplies the lie.",
+    status: "backlog",
+    priority: "medium",
+    labels: ["frontend", "engine", "product"],
+  },
+  {
+    title: "Dim night mode and haptics",
+    description:
+      "Night screens must not light a face up in a dark room. Dim, dark-red, minimal; prefer a haptic wake over a glowing notification. See docs/design/principles.md.",
+    status: "backlog",
+    priority: "medium",
+    labels: ["frontend", "design"],
+  },
+  {
+    title: "Game expiry and creation rate limiting",
+    description:
+      "Guests are anonymous and games are cheap to create, so an idle-game expiry job and a creation limit are the difference between a tool and an unbounded hosting bill.",
+    status: "backlog",
+    priority: "medium",
+    labels: ["backend", "ops"],
+  },
+  {
+    title: "Replace the placeholder design tokens",
+    description:
+      "packages/design/src/tokens.css currently holds neutral placeholders inherited from the fork. Replace them with a palette chosen for a dark table, and map the night-mode variants in apps/app/src/styles/app.css.",
+    status: "backlog",
+    priority: "medium",
+    labels: ["design", "frontend"],
+  },
+  {
+    title: "Internalize the dev-board backend functions before public launch",
+    description:
+      "The devboard group is deliberately public and unauthenticated for localhost convenience. Make the functions internal before the site is public.",
     status: "backlog",
     priority: "high",
     labels: ["devtools", "security"],
   },
   {
-    title: "Write the domain-boundary check script",
-    description:
-      "CI-able check that each confect group's impl only opens tables its own domain owns (cross-domain behavior must route through the owning domain's declared functions). Converts the \"no reach-throughs\" convention into a runnable rule.",
-    status: "backlog",
-    priority: "medium",
-    labels: ["backend", "tooling"],
-  },
-  {
     title: "Build the component gallery dev page",
     description:
-      "In-house UI primitives (Dialog first) reviewed on a localhost-only gallery page styled from brand tokens - our Storybook substitute. See docs/design/ui-foundation.md.",
-    status: "backlog",
-    priority: "medium",
-    labels: ["design", "frontend"],
-  },
-  {
-    title: "Revisit solid-ui / Kobalte adoption when Kobalte 2.0 is stable",
-    description:
-      "Design decision 2026-10-15: in-house primitives until the Solid 2 ecosystem stabilizes. When @kobalte/core 2.0 ships stable, evaluate adopting Kobalte (or solid-ui patterns on top of it) by swapping primitive internals.",
+      "In-house UI primitives reviewed on a localhost-only gallery page styled from tokens - the Storybook substitute. See docs/design/ui-foundation.md.",
     status: "backlog",
     priority: "low",
     labels: ["design", "frontend"],
   },
   {
-    title: "Agent-native slice 1: chat panel answering real church data",
+    title: "Revisit Kobalte 2.0 adoption when it is stable",
     description:
-      "First slice of docs/product/agent-native.md: an agent chat that reads one church-surface with the acting person's role, proving the agent layer inherits the same policy as a human.",
-    status: "backlog",
-    priority: "medium",
-    labels: ["ai", "product"],
-  },
-  {
-    title: "Agent-native slice 2: a chart that renders from a stored view document",
-    description:
-      "Prove views-as-documents: dashboard chart primitives take their shape from a Convex document the agent (or the user) authors. Composition over a hard-coded control panel.",
-    status: "backlog",
-    priority: "medium",
-    labels: ["ai", "frontend"],
-  },
-  {
-    title: "Agent-native slice 3: in-app agent driving a two-step flow",
-    description:
-      "Do-it-with-you prototype: front-end primitives (move pointer, click, fill) drive a small flow visible to the user, under the user's own session, interruptible. Proves the teaching-before-tutorials idea.",
+      "Decision 2026-10-15: in-house primitives until the Solid 2 ecosystem stabilises. When @kobalte/core 2.0 ships stable, swap primitive internals.",
     status: "backlog",
     priority: "low",
-    labels: ["ai", "frontend"],
+    labels: ["design", "frontend"],
   },
 ];
 

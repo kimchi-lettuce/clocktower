@@ -1,5 +1,5 @@
 {
-  "name": "@christonline/design",
+  "name": "@clocktower/design",
   "private": true,
   "exports": {
     ".": "./src/tokens.css",

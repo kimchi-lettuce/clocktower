@@ -3,7 +3,7 @@ import * as Schema from "effect/Schema";
 
 /*
  * Development task board (see docs/product/features/dev-board.md).
- * Holds development tickets only — never church or member data.
+ * Holds development tickets only — never player data.
  */
 export default Table.make(() =>
   Schema.Struct({
@@ -14,5 +14,4 @@ export default Table.make(() =>
     labels: Schema.Array(Schema.String.check(Schema.isMaxLength(24))),
     order: Schema.Number,
   }),
-)
-  .index("by_status_and_order", ["status", "order"]);
+).index("by_status_and_order", ["status", "order"]);

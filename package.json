@@ -1,10 +1,9 @@
 {
-  "name": "christ-online",
+  "name": "clocktower",
   "private": true,
   "scripts": {
     "dev": "convex dev --start \"vp -C apps/app dev\"",
     "convex:dev": "convex dev",
-    "dev:marketing": "vp -C apps/marketing dev",
     "build": "vp run -r build",
     "check": "vp check",
     "test": "vp test"

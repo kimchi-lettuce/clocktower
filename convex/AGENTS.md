@@ -1,6 +1,6 @@
 # Convex AGENTS.md
 
-ChristOnline's backend is the `convex/` Convex deployment with the Confect/Effect typed authoring layer in the sibling `confect/` directory (why: the 2026-10-15 verified tooling decision in [docs/technical/decisions.md](../docs/technical/decisions.md) — `confect codegen` hardcodes the sibling layout and destroys authoring files under any other arrangement).
+Clocktower's backend is the `convex/` Convex deployment with the Confect/Effect typed authoring layer in the sibling `confect/` directory (why: the 2026-10-15 verified tooling decision in [docs/technical/decisions.md](../docs/technical/decisions.md) — `confect codegen` hardcodes the sibling layout and destroys authoring files under any other arrangement).
 
 ## Read first
 
@@ -35,7 +35,7 @@ Function groups map to domains (e.g. `confect/devboard/` — the dev board). Pla
 - **People-data domains** (personal information about members, visitors, attendance, notes, rosters) additionally require, before the domain ships:
   - `<domain>.policies.ts` — who may see and do this domain's things (role vocabulary from [rbac-tenancy-design.md](../docs/technical/rbac-tenancy-design.md)).
   - `<domain>.projections.ts` — role-scoped read models; reads of people data return the reduced form, never a raw document.
-  These are fixed rules, not judgment calls: privacy failures are silent, so agents must not opt out mid-feature.
+    These are fixed rules, not judgment calls: privacy failures are silent, so agents must not opt out mid-feature.
 - `<name>.spec.ts`: `GroupSpec` with `FunctionSpec`s — args/returns (and optional typed errors) as Effect schemas, and shared constants/contracts. Must not value-import `@confect/server`.
 - `<name>.impl.ts`: `GroupImpl` Effect layer per function, `GroupImpl.finalize` as the completeness check. Import Effect from submodule paths (`effect/Effect`, not the barrel).
 - Cross-domain reach-throughs are a review failure: an impl may only open tables its own domain owns; cross-domain behavior goes through the owning domain's declared functions.
@@ -54,4 +54,4 @@ Function groups map to domains (e.g. `confect/devboard/` — the dev board). Pla
 
 ## Before finishing
 
-Typecheck with `node node_modules/typescript/lib/tsc.js -p convex/tsconfig.json --noEmit` (backend) and `pnpm --filter @christonline/app build` (frontend). Do not commit, push, rename files, or create branches without explicit approval from Daniel.
+Typecheck with `node node_modules/typescript/lib/tsc.js -p convex/tsconfig.json --noEmit` (backend) and `pnpm --filter @clocktower/app build` (frontend). Commit in small logical slices; do not rename files or create branches as a side effect of unrelated work.

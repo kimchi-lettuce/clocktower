@@ -1,86 +1,65 @@
-# ChristOnline
+# Clocktower
 
-ChristOnline is an all-in-one church management system (CMS), developed with Daniel Chin. It brings together lessons from the CrossCheck community knowledge hub and the Church Welcoming / attendance app.
+A digital companion for **Blood on the Clocktower**, the social-deduction game where one person runs the game and everyone else lies to each other.
 
-This repository starts from the [TanStack Router Solid Start + Convex + Better Auth example](https://github.com/TanStack/router/tree/main/examples/solid/start-convex-better-auth). The starter provides the initial technical foundation; ChristOnline is not yet a complete church management product.
+It exists because the physical game is expensive and hard to get hold of, and because a phone is a much better place to keep a secret than a table covered in cardboard.
+
+**Working name:** `clocktower` in code and folders. The public name, domain, and repo are not settled — see the [product decision](../docs/product/vision.md) and the trademark note in [AGENTS.md](AGENTS.md).
+
+## What it is
+
+- **An in-person game-night tool.** Everyone is in the same room with their own phone. One person is the Storyteller and runs the game from their phone.
+- **Storyteller-lite.** The app knows the rules — night order, targeting constraints, the vote threshold, poisoning, ghost votes — and walks the Storyteller through them a step at a time. The Storyteller still makes every judgement call the rules leave open. It is _not_ an automated game master.
+- **Trouble Brewing first.** One script, 22 characters. Characters are data, so a second script is a content drop rather than a rewrite.
+- **Shareable without accounts.** A game has a short code, a link, and a QR code. No signup, ever.
 
 ## Stack
 
-- [TanStack Router](https://tanstack.com/router) with [Solid](https://solidjs.com/) as a browser-only SPA, in `apps/app`
-- [Convex](https://www.convex.dev/) as the backend and database, in `convex/`
-- [Better Auth](https://www.better-auth.com/) integrated through `@convex-dev/better-auth`
-- [Confect](https://github.com/rjdellecese/confect) for Effect-typed Convex functions
-- [Effect v4](https://effect.website/docs/v4/onboarding) for typed effects, services, and platform integration
-- A static marketing site in `apps/marketing` and shared brand tokens in `packages/design`
+- [Solid](https://solidjs.com/) 2 + [TanStack Router](https://tanstack.com/router) as a browser-only SPA in `apps/app`
+- [Convex](https://www.convex.dev/) as the backend and realtime database, in `convex/`
+- [Confect](https://github.com/rjdellecese/confect) for Effect-typed Convex functions, authored in `confect/`
+- [Effect v4](https://effect.website/docs/v4/onboarding) at the edges: database access, auth, timers, typed errors
+- [Better Auth](https://www.better-auth.com/) through `@convex-dev/better-auth`, used for frictionless guest sessions rather than logins
+- [Vite+](https://viteplus.dev/) (`vp`) as the single dev/build/test/lint toolchain
+- `packages/design` for shared CSS tokens
+
+The rules engine itself is plain TypeScript with no Effect and no Convex imports — see [architecture](../docs/technical/architecture.md).
 
 ## Repository layout
 
 ```text
-apps/app/        the church app (Solid SPA)
-apps/marketing/  the static marketing site
-packages/design/ shared CSS tokens and brand assets
-convex/          the Convex backend
-docs/            product, design, and technical docs
+apps/app/    the game (Solid SPA)
+packages/design/  shared CSS tokens
+confect/     Convex function groups and tables (Confect authoring)
+convex/      Convex codegen target + hand-maintained runtime config
+docs/        product, design, and technical docs
 ```
 
 ## Run locally
 
 1. Install [Node.js](https://nodejs.org/) and [pnpm](https://pnpm.io/).
-2. Install workspace dependencies:
+2. `pnpm install`
+3. `cp .env.example .env.local`
+4. `pnpm run convex:dev` — follow the prompts to create a Convex development deployment. Keep this terminal open; it writes `VITE_CONVEX_URL` into `.env.local`.
+5. In a second terminal: `pnpm run dev` and open the URL Vite prints (normally <http://localhost:3000>).
 
-   ```bash
-   pnpm install
-   ```
+The app is a static SPA, so deploying it means hosting `apps/app`'s build output and pointing it at a Convex deployment. There is no app server.
 
-3. Copy the environment template at the workspace root (shared by the app, the marketing site, and the Convex CLI):
+## Notes
 
-   ```bash
-   cp .env.example .env.local
-   ```
+- [Architecture](../docs/technical/architecture.md) — how the pieces fit, including the rules engine boundary
+- [Convex backend standard](../docs/technical/convex-backend-standard.md) — how backend code is organised
+- [Agent lessons](../docs/agent-lessons.md) — read before nontrivial work
+- The in-app dev board at `/dev/board` tracks development work (localhost only, no login)
 
-4. Start Convex and follow its prompts to create or connect a development deployment:
+Character names and ability text belong to The Pandemonium Institute. This is an unofficial fan tool: no official art, no monetisation, and content is transcribed from the published rules for play support only.
 
-   ```bash
-   pnpm run convex:dev
-   ```
+<!-- convex-ai-start -->
 
-   The Convex development process updates `VITE_CONVEX_URL` and `VITE_CONVEX_SITE_URL` in `.env.local`. Keep this terminal open.
+This project uses [Convex](https://convex.dev) as its backend.
 
-5. In a separate terminal, configure the site URL and auth secret in Convex:
+When working on Convex code, **always read `convex/_generated/ai/guidelines.md` first** for important guidelines on how to correctly use Convex APIs and patterns. The file contains rules that override what you may have learned about Convex from training data.
 
-   ```bash
-   pnpm exec convex env set SITE_URL http://localhost:3000/
-   pnpm exec convex env set BETTER_AUTH_SECRET "$(openssl rand -base64 32)"
-   ```
+Convex agent skills for common tasks can be installed by running `npx convex ai-files install`.
 
-6. Start the local web app:
-
-   ```bash
-   pnpm run dev
-   ```
-
-   Open the URL reported by Vite (normally <http://localhost:3000>).
-
-To work on the marketing site instead, run:
-
-```bash
-pnpm run dev:marketing
-```
-
-## Deployment
-
-Two Vercel projects are connected to this one repo:
-
-| Project | Root directory | Domain |
-| --- | --- | --- |
-| Marketing | `apps/marketing` | `christonline.com` / `www.christonline.com` |
-| App | `apps/app` | `app.christonline.com` |
-
-Each project builds its own package independently, so marketing deploys do not rebuild the app and vice versa.
-
-## Project notes
-
-- [ChristOnline project overview](./docs/ChristOnline.md)
-- [Git for Daniel](./docs/Git%20for%20Daniel.html)
-
-Do not commit secrets or real church/member data.
+<!-- convex-ai-end -->

@@ -1,6 +1,6 @@
 # Convex backend standard
 
-ChristOnline is a Convex backend. Confect and Effect are the typed authoring layer used within that backend, not a separate backend surface.
+Clocktower is a Convex backend. Confect and Effect are the typed authoring layer used within that backend, not a separate backend surface.
 
 ## Target layout
 
@@ -67,9 +67,9 @@ Generated code lives under `confect/_generated/` and `convex/` (Confect's codege
 - Each table has exactly one owning domain.
 - A domain owns its tables, contracts, functions, and invariants.
 - Cross-domain reads and writes are explicit, not accidental table reach-throughs.
-- Domain names are provisional until the ChristOnline product language is settled. Do not copy the welcoming project's domain names automatically.
+- Domain names are provisional until the Clocktower product language is settled. Do not copy the welcoming project's domain names automatically.
 - The root schema composes individual domain schemas. It should not become the long-term dump of every table definition.
-- Platform code handles shared technical concerns such as storage, integrations, or HTTP plumbing. It should not own church-domain rules.
+- Platform code handles shared technical concerns such as storage, integrations, or HTTP plumbing. It should not own game rules.
 
 ## Standard domain shape
 

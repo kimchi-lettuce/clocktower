@@ -1,25 +1,12 @@
 import { ConvexClient } from "convex/browser";
-import type {
-  FunctionArgs,
-  FunctionReference,
-  FunctionReturnType,
-} from "convex/server";
-import {
-  createContext,
-  createMemo,
-  createSignal,
-  onSettled,
-  useContext,
-} from "solid-js";
+import type { FunctionArgs, FunctionReference, FunctionReturnType } from "convex/server";
+import { createContext, createMemo, createSignal, onSettled, useContext } from "solid-js";
 import type { JSX } from "@solidjs/web";
 import { authClient } from "~/library/auth-client";
 
 const ConvexContext = createContext<ConvexClient | undefined>();
 
-export function ConvexProvider(props: {
-  client: ConvexClient;
-  children: JSX.Element;
-}) {
+export function ConvexProvider(props: { client: ConvexClient; children: JSX.Element }) {
   return <ConvexContext value={props.client}>{props.children}</ConvexContext>;
 }
 

@@ -1,15 +1,15 @@
 {
-  "name": "@christonline/app",
+  "name": "@clocktower/app",
   "private": true,
-  "sideEffects": false,
   "type": "module",
+  "sideEffects": false,
   "scripts": {
     "dev": "vp dev",
     "build": "vp build && tsc --noEmit",
     "preview": "vp preview"
   },
   "dependencies": {
-    "@christonline/design": "workspace:*",
+    "@clocktower/design": "workspace:*",
     "@convex-dev/better-auth": "0.12.5",
     "@solidjs/web": "2.0.0-rc.14",
     "@tanstack/solid-router": "2.0.0-rc.8",

@@ -1,6 +1,6 @@
-# ChristOnline Convex backend
+# Clocktower Convex backend
 
-This directory is ChristOnline's Convex backend and database layer.
+This directory is Clocktower's Convex backend and database layer.
 
 The backend is organized as a Convex-centric domain monolith. Confect and Effect provide the typed authoring layer, while Convex remains the runtime and public API surface.
 

@@ -1,10 +1,10 @@
 // Vite+ workspace-level config: test, lint, and format scoping for `vp check`
 // and `vp test` run at the root. App-specific Vite settings (Solid, TanStack
-// Router, Tailwind) live in apps/app/vite.config.ts; apps/marketing needs none.
+// Router, Tailwind) live in apps/app/vite.config.ts.
 //
 // NOTE: `vp build` / `vp dev` run per app package; this file only governs the
-// workspace-wide commands. confect/*.spec.ts files are in-progress stubs and
-// stay out of the test glob until they contain real suites.
+// workspace-wide commands. confect/** engine tests are not collected yet - add them when the first
+// real engine suite exists (see the dev board).
 import { defineConfig } from "vite-plus";
 
 const generated = ["**/_generated/**", "**/dist/**", "**/node_modules/**"];
@@ -23,10 +23,7 @@ export default defineConfig({
     ignorePatterns: generated,
   },
   test: {
-    include: [
-      "apps/*/src/**/*.{test,spec}.{ts,tsx}",
-      "packages/*/src/**/*.{test,spec}.{ts,tsx}",
-    ],
+    include: ["apps/*/src/**/*.{test,spec}.{ts,tsx}", "packages/*/src/**/*.{test,spec}.{ts,tsx}"],
     passWithNoTests: true,
   },
 });

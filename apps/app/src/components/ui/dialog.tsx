@@ -39,10 +39,7 @@ export function Dialog(props: DialogProps) {
         aria-modal="true"
         aria-label={props.title}
       >
-        <div
-          class="absolute inset-0 bg-ink/40"
-          onClick={() => props.onClose()}
-        />
+        <div class="absolute inset-0 bg-ink/40" onClick={() => props.onClose()} />
         <div class="relative flex max-h-[85vh] w-full max-w-lg flex-col bg-card border border-line rounded-lg shadow-lg">
           <div class="flex items-start justify-between border-b border-line p-5">
             <h2 class="text-lg font-semibold text-ink">{props.title}</h2>

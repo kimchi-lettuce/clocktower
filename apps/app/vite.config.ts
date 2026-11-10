@@ -4,8 +4,8 @@ import solid from "@solidjs/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  // Shared env file lives at the workspace root so the app, marketing site,
-  // and the Convex CLI all read from one place.
+  // Shared env file lives at the workspace root so the app and the Convex CLI
+  // read from one place.
   envDir: "../../",
   server: { port: 3000 },
   resolve: { tsconfigPaths: true },

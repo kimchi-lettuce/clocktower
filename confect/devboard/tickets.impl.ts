@@ -5,7 +5,6 @@ import * as Option from "effect/Option";
 
 import databaseSchema from "../_generated/schema";
 import { DatabaseReader, DatabaseWriter } from "../_generated/services";
-import devTicket from "../_generated/tables/devTicket";
 import tickets, { STARTER_DEV_TICKETS } from "./tickets.spec";
 
 /*
@@ -70,9 +69,7 @@ const setStatus = FunctionImpl.make(databaseSchema, tickets, "setStatus", (args)
       .first();
     const order = Option.isSome(last) ? last.value.order + 1 : 0;
 
-    yield* writer
-      .table("devTicket")
-      .patch(args.ticketId, { status: args.status, order });
+    yield* writer.table("devTicket").patch(args.ticketId, { status: args.status, order });
 
     return null;
   }).pipe(Effect.orDie),

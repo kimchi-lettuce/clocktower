@@ -33,9 +33,7 @@ function RouteComponent() {
           <div class="flex items-center justify-between">
             <div>
               <h1 class="text-2xl font-bold text-ink">Dashboard</h1>
-              <p class="text-sm text-muted mt-1">
-                Numbers sync directly from Convex.
-              </p>
+              <p class="text-sm text-muted mt-1">Numbers sync directly from Convex.</p>
             </div>
             <div class="flex items-center gap-3">
               {window.location.hostname === "localhost" && (
@@ -79,12 +77,8 @@ function RouteComponent() {
             when={data()?.numbers && data()!.numbers.length > 0}
             fallback={
               <div class="text-center py-12">
-                <h3 class="mt-2 text-sm font-medium text-ink">
-                  No numbers yet
-                </h3>
-                <p class="mt-1 text-sm text-muted">
-                  Get started by adding your first number.
-                </p>
+                <h3 class="mt-2 text-sm font-medium text-ink">No numbers yet</h3>
+                <p class="mt-1 text-sm text-muted">Get started by adding your first number.</p>
               </div>
             }
           >

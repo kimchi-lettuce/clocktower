@@ -1,5 +1,5 @@
 @import "tailwindcss" source("../");
-@import "@christonline/design";
+@import "@clocktower/design";
 
 /*
  * Map brand tokens onto Tailwind utilities (bg-accent, text-ink, rounded-md...).

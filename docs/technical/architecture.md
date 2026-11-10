@@ -1,61 +1,89 @@
 # Architecture
 
-ChristOnline starts from the TanStack Router Solid Start + Convex + Better Auth example, per the upstream attribution in the repo README. Product motivation lives in [product/vision.md](../product/vision.md); this page explains how the system is built.
+Where state lives, how the game is computed, and where the boundaries are. Product motivation lives in [product/vision.md](../product/vision.md); backend conventions in [convex-backend-standard.md](convex-backend-standard.md).
 
-## Stack
+## The stack, briefly
 
-- pnpm workspace with per-package frontends: `apps/app` (the browser SPA) and `apps/marketing` (a static site), plus `packages/design` for shared brand tokens
-- TanStack Router with Solid and file-based routes, used as a browser-only SPA without app-server SSR (inside `apps/app`)
-- Convex as the backend and database, with Effect/Confect typing, staying at the workspace root in `convex/`
-- Backend organization follows [the Convex backend standard](convex-backend-standard.md)
-- Better Auth integrated through `@convex-dev/better-auth`, so auth tables and HTTP routes run inside Convex; the package is used by both the backend (server side) and `apps/app` (client plugins)
-- Solid 2 RC with the project-owned adapter in `apps/app/src/library/convex-client.tsx`
+- Solid 2 + TanStack Router as a browser-only SPA in `apps/app` — no SSR, no app server
+- Convex as database, realtime transport, auth host, and scheduler
+- Confect for typed Convex functions authored in `confect/`, codegen'd into `convex/`
+- Effect at the edges for database access, auth, schedulers, and typed errors
+- Tokens only in `packages/design/src/tokens.css`
 
-## Toolchain (Vite+)
+## The four layers
 
-The repo uses Vite+ (`vite-plus` 1.3.0 / the `vp` CLI from `node_modules/.bin`) as the single dev toolchain; the pnpm override aliases the `vite` package to Vite+'s bundled core, and standalone `vite` has **no binary anymore** — never invoke bare `vite`, use `vp` commands:
-
-- Dev/build per app: `vp dev` / `vp build` (app's `build` script adds `tsc --noEmit`); workspace-wide via root scripts `pnpm run build` (`vp run -r build`), `pnpm run dev`
-- One quality gate: `vp check` (Oxfmt + Oxlint + typecheck; `--fix` to auto-fix) and `vp test` (Vitest)
-- Config: workspace-root `vite.config.ts` governs test/lint/fmt scoping; app Vite plugins (Solid, TanStack Router, Tailwind) stay in `apps/app/vite.config.ts`
-- Details and follow-ups: the "Vite+ as the unified toolchain" entry in [decisions.md](decisions.md)
-
-## Repository layout
-
-```
-apps/app/        browser SPA (Solid + TanStack Router + Convex client)
-apps/marketing/  static marketing site (plain HTML/CSS, no framework)
-packages/design/ shared CSS tokens used by both apps
-convex/          backend, workspace root so the Convex CLI and its deps stay together
+```text
+apps/app                 Solid SPA. Renders projections. Owns no game state.
+  │  queries + mutations (direct to Convex)
+confect/<domain>/impl    Adapters. Load state → call engine → persist + emit events.
+  │  plain function calls, no services
+engine/                  The rules. Pure. No Convex, no Effect, no clock, seeded RNG.
 ```
 
-Env vars live in the workspace root `.env.local` / `.env.example` and are shared: `apps/app/vite.config.ts` points `envDir` at the root so Vite reads the same file the Convex CLI does.
+| Layer | May know about | Must not know about |
+|---|---|---|
+| `apps/app` | projection shapes, UI state | the rules, real roles of other players |
+| `confect/*/impl` | Convex services, Effect, the engine's API | game rules (delegates them) |
+| engine | nothing but its own types | Convex, Effect, wall clock, global RNG |
 
-## Solid 2 adapter
+The engine is where the game lives: night order, targeting constraints, poisoning, vote resolution, death, win conditions. It is plain TypeScript so it can be tested by calling a function and replayed from a seed.
 
-- Because the app uses Solid 2 RC, component-level subscriptions are mounted inside `onSettled` and the returned cleanup must be the unsubscribe function itself. A cleanup like `onSettled(() => unsubscribe())` would immediately dispose the subscription. Use `onSettled(() => { const unsubscribe = ...; return () => unsubscribe(); })` so the callback runs once and the cleanup is returned.
+## The projection rule
 
-## The frontend is the runtime, not the app server
+`gameView(viewer)` is the only read model. The server resolves the caller to one of three viewers and returns that viewer's shape:
 
-The browser runs the UI. Convex runs product data. The app server no longer provides an SSR runtime or a general API proxy. This keeps the SPA simple and avoids duplicate authorization paths.
+```ts
+type Viewer =
+  | { kind: "storyteller" }                        // everything
+  | { kind: "player"; seatId: Id<"seat"> }         // own role, own info history, public state
+  | { kind: "spectator" }                          // public state only
+```
 
-## Auth wiring today
+- Redaction happens **before** the data leaves the server. Hiding fields in the client is not redaction.
+- The Confect spec declares the return as a discriminated union on `kind`, so adding a field to one shape is a type error until it is classified for the others.
+- Public state (who is alive, who died, nominations, vote results) is the town square, and contains no roles.
+- A player's *believed* role is what their projection uses. For the Drunk, the real role must never appear in that player's payload.
 
-- `convex/auth.ts` defines Better Auth inside Convex with the Convex plugin; `convex/auth.config.ts` declares the JWT provider so Convex can verify tokens.
-- `src/library/auth-client.ts` points Better Auth at the Convex HTTP endpoints and enables the package-supported cross-domain session mode.
-- `src/library/convex-client.tsx` fetches the Convex JWT through Better Auth and gives it to `ConvexClient`; `ConvexClient` is configured with `expectAuth` for the primary authenticated app surface.
-- The old `/api/auth` app-server proxy and TanStack server functions have been removed.
-- The browser client is configured in `src/library/convex-client.tsx`, with a token fetched from the auth wiring.
-- Product data flows call Convex directly so the browser -> Convex path stays short. The browser origin is allowlisted, while Convex functions remain the real authorization boundary; see [decisions.md](decisions.md).
+**The test that protects the product:** for each viewer kind, assert the payload contains no character name or role string that isn't the viewer's own — with the exception of the Minion/Demon pair for those two seats.
 
-## The current flow
+## Commands, events, replayability
 
-1. The browser loads the SPA.
-2. Better Auth stores the cross-domain session in its supported browser storage.
-3. `ConvexClient` requests the Convex JWT from Better Auth.
-4. Product queries and mutations call Convex directly with that JWT.
-5. Convex functions remain the real security and ownership boundary.
+Writes are commands: `{ gameId, actorSeatId, expectedVersion, command }`.
 
-## Working on Convex code
+1. The adapter loads the game.
+2. The engine returns `[nextState, events]`.
+3. The adapter writes the new state and appends the events, rejecting the command if `game.version` no longer matches `expectedVersion`.
 
-Read [`convex-backend-standard.md`](convex-backend-standard.md) and [`convex/AGENTS.md`](../../convex/AGENTS.md) before backend work. Always read `convex/_generated/ai/guidelines.md` first while editing generated code or Convex runtime wiring, per the repo-level AGENTS.md.
+Consequences: concurrent writers cannot silently interleave, every game is replayable from its event log, and a Storyteller can undo a mis-tap by appending a correcting event rather than editing history.
+
+Randomness (role shuffling, tie-breaking the Storyteller doesn't decide) comes from a seed stored on the game, so a replay reproduces it exactly.
+
+## Where timing lives
+
+Convex scheduled functions handle anything time-based (idle-game expiry, optional night pacing). Timers never live in the engine: the engine takes the current moment as an argument if it needs one, so tests do not wait.
+
+## Auth and identity
+
+Guest sessions, not accounts: a device-bound guest identity (see the room-code decision in [decisions.md](decisions.md#2026-11-11--guest-identity-room-code-no-accounts)), a per-seat PIN as the fallback, and the Storyteller as the recovery mechanism of last resort. Better Auth runs inside Convex through `@convex-dev/better-auth`; the SPA obtains its Convex JWT through the package's cross-domain mode.
+
+Convex functions are the authorization boundary. A player acting on another seat is rejected on the server, not hidden in the UI.
+
+## Toolchain
+
+Vite+ (`vite-plus`) is the single toolchain: `vp dev`, `vp build`, `vp check` (format + lint + typecheck), `vp test`. App-level Vite settings live in `apps/app/vite.config.ts`; the workspace-root `vite.config.ts` scopes tests, lint, and formatting. There is no `vite` binary — never invoke bare `vite`.
+
+## Repo layout
+
+```text
+apps/app/         browser SPA (Solid + TanStack Router + Convex client)
+packages/design/  shared CSS tokens
+confect/          tables + function groups (authoring)
+convex/           codegen target + hand-maintained runtime config
+docs/             product, design, technical
+```
+
+Env vars live at the workspace root (`.env.local` / `.env.example`); `apps/app/vite.config.ts` points `envDir` at the root so the app and the Convex CLI read one file.
+
+## Working on backend code
+
+Read [convex-backend-standard.md](convex-backend-standard.md) and [convex/AGENTS.md](../../convex/AGENTS.md) first, then `convex/_generated/ai/guidelines.md`. Generated files are never hand-edited.

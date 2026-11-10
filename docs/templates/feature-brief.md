@@ -7,7 +7,7 @@ Copy this file into `product/features/<slug>.md` and fill it in. Delete this hea
 
 ## Problem
 
-The church reality this addresses, in one paragraph.
+The player experience this addresses, in one paragraph.
 
 ## Who it serves
 
@@ -15,7 +15,7 @@ Roles affected, using [glossary](../product/glossary.md) terms.
 
 ## Workflow
 
-Steps as they happen in the church today, then steps as they should happen in ChristOnline.
+Steps as they happen at the table today, then steps as they should happen in Clocktower.
 
 ## In scope / out of scope
 
@@ -27,7 +27,7 @@ Which records the feature creates or reads, and which screens show them. Keep it
 
 ## Open questions
 
-Questions raised for Daniel or the team, so nothing is decided silently.
+Questions raised for the owner or the team, so nothing is decided silently.
 
 ## Decisions
 

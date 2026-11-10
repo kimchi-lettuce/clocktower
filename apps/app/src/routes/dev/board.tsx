@@ -40,7 +40,7 @@ const CONVEX_URL = import.meta.env.VITE_CONVEX_URL as string;
 if (!CONVEX_URL) {
   throw new Error("VITE_CONVEX_URL is required");
 }
-// Anonymous client: dev tickets carry no church data and the board is
+// Anonymous client: dev tickets carry no player data and the board is
 // localhost-only, so no auth token is needed here.
 const devTicketsClient = new ConvexClient(CONVEX_URL);
 
@@ -70,9 +70,7 @@ function BoardPage() {
 
   const byStatus = (status: Status): DevTicket[] => {
     const list = tasks() ?? [];
-    return list
-      .filter((task) => task.status === status)
-      .sort((a, b) => a.order - b.order);
+    return list.filter((task) => task.status === status).sort((a, b) => a.order - b.order);
   };
 
   const seedStarterTickets = async () => {
@@ -88,8 +86,7 @@ function BoardPage() {
           <div>
             <h1 class="text-xl font-bold text-ink">Dev board</h1>
             <p class="text-sm text-muted mt-0.5">
-              Development tickets only — never church or member data. Served
-              on localhost only.
+              Development tickets only — never player data. Served on localhost only.
             </p>
           </div>
           <button
@@ -142,12 +139,7 @@ function BoardPage() {
       </div>
 
       <Show when={selected()}>
-        {(task) => (
-          <TicketDetailsDialog
-            task={task()}
-            onClose={() => setSelected(null)}
-          />
-        )}
+        {(task) => <TicketDetailsDialog task={task()} onClose={() => setSelected(null)} />}
       </Show>
       <NewTicketDialog open={creating()} onClose={() => setCreating(false)} />
     </main>
@@ -175,9 +167,7 @@ function BoardColumn(props: {
               onClick={() => props.onSelect(task)}
             >
               <div class="flex items-center gap-2">
-                <span class="text-xs font-medium text-muted">
-                  {task.priority}
-                </span>
+                <span class="text-xs font-medium text-muted">{task.priority}</span>
                 <h3 class="text-sm font-medium text-ink">{task.title}</h3>
               </div>
               <Show when={task.labels.length > 0}>
@@ -205,10 +195,7 @@ function moveTargets(status: Status): Status[] {
 
 const PRIORITY_OPTIONS: readonly Priority[] = ["low", "medium", "high"];
 
-function TicketDetailsDialog(props: {
-  task: DevTicket;
-  onClose: () => void;
-}) {
+function TicketDetailsDialog(props: { task: DevTicket; onClose: () => void }) {
   const [title, setTitle] = createSignal(props.task.title);
   const [description, setDescription] = createSignal(props.task.description);
   const [priority, setPriority] = createSignal<Priority>(props.task.priority);
@@ -245,11 +232,7 @@ function TicketDetailsDialog(props: {
   };
 
   return (
-    <Dialog
-      open
-      title={props.task.title}
-      onClose={() => props.onClose()}
-    >
+    <Dialog open title={props.task.title} onClose={() => props.onClose()}>
       <div class="flex flex-col gap-4">
         <div>
           <label class="block text-xs font-medium text-muted mb-1">Title</label>
@@ -261,9 +244,7 @@ function TicketDetailsDialog(props: {
           />
         </div>
         <div>
-          <label class="block text-xs font-medium text-muted mb-1">
-            Description
-          </label>
+          <label class="block text-xs font-medium text-muted mb-1">Description</label>
           <textarea
             rows={6}
             value={description()}
@@ -272,14 +253,10 @@ function TicketDetailsDialog(props: {
           />
         </div>
         <div>
-          <label class="block text-xs font-medium text-muted mb-1">
-            Priority
-          </label>
+          <label class="block text-xs font-medium text-muted mb-1">Priority</label>
           <select
             value={priority()}
-            onChange={(event) =>
-              setPriority(event.currentTarget.value as Priority)
-            }
+            onChange={(event) => setPriority(event.currentTarget.value as Priority)}
             class="w-full border border-line rounded-md px-3 py-2 text-sm text-ink bg-surface"
           >
             <For each={PRIORITY_OPTIONS}>
@@ -288,9 +265,7 @@ function TicketDetailsDialog(props: {
           </select>
         </div>
         <div>
-          <label class="block text-xs font-medium text-muted mb-1">
-            Labels (comma-separated)
-          </label>
+          <label class="block text-xs font-medium text-muted mb-1">Labels (comma-separated)</label>
           <input
             type="text"
             value={labels()}
@@ -366,11 +341,7 @@ function NewTicketDialog(props: { open: boolean; onClose: () => void }) {
   };
 
   return (
-    <Dialog
-      open={props.open}
-      title="New ticket"
-      onClose={() => props.onClose()}
-    >
+    <Dialog open={props.open} title="New ticket" onClose={() => props.onClose()}>
       <div class="flex flex-col gap-4">
         <div>
           <label class="block text-xs font-medium text-muted mb-1">Title</label>
@@ -382,9 +353,7 @@ function NewTicketDialog(props: { open: boolean; onClose: () => void }) {
           />
         </div>
         <div>
-          <label class="block text-xs font-medium text-muted mb-1">
-            Description
-          </label>
+          <label class="block text-xs font-medium text-muted mb-1">Description</label>
           <textarea
             rows={4}
             value={description()}
@@ -394,30 +363,22 @@ function NewTicketDialog(props: { open: boolean; onClose: () => void }) {
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-medium text-muted mb-1">
-              Status
-            </label>
+            <label class="block text-xs font-medium text-muted mb-1">Status</label>
             <select
               value={status()}
               onChange={(event) => setStatus(event.currentTarget.value as Status)}
               class="w-full border border-line rounded-md px-3 py-2 text-sm text-ink bg-surface"
             >
               <For each={[...STATUS_ORDER]}>
-                {(option) => (
-                  <option value={option}>{STATUS_LABEL[option]}</option>
-                )}
+                {(option) => <option value={option}>{STATUS_LABEL[option]}</option>}
               </For>
             </select>
           </div>
           <div>
-            <label class="block text-xs font-medium text-muted mb-1">
-              Priority
-            </label>
+            <label class="block text-xs font-medium text-muted mb-1">Priority</label>
             <select
               value={priority()}
-              onChange={(event) =>
-                setPriority(event.currentTarget.value as Priority)
-              }
+              onChange={(event) => setPriority(event.currentTarget.value as Priority)}
               class="w-full border border-line rounded-md px-3 py-2 text-sm text-ink bg-surface"
             >
               <For each={PRIORITY_OPTIONS}>
@@ -427,9 +388,7 @@ function NewTicketDialog(props: { open: boolean; onClose: () => void }) {
           </div>
         </div>
         <div>
-          <label class="block text-xs font-medium text-muted mb-1">
-            Labels (comma-separated)
-          </label>
+          <label class="block text-xs font-medium text-muted mb-1">Labels (comma-separated)</label>
           <input
             type="text"
             value={labels()}

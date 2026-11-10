@@ -1,10 +1,5 @@
 import { httpRouter } from "convex/server";
-import {
-  authComponent,
-  appOrigin,
-  createAuth,
-  localAppOrigins,
-} from "../confect/betterAuth";
+import { authComponent, appOrigin, createAuth, localAppOrigins } from "../confect/betterAuth";
 
 const http = httpRouter();
 

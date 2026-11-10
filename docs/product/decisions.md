@@ -1,6 +1,6 @@
 # Product decision log
 
-Every durable product decision gets a dated entry here, written so Daniel can read it without code words. Newest first. One entry per decision.
+Durable product decisions, dated, newest first, written so a player can read them without code words. Architecture choices live in [technical/decisions.md](../technical/decisions.md).
 
 ## Format
 
@@ -8,40 +8,42 @@ Every durable product decision gets a dated entry here, written so Daniel can re
 - **Decision:** one sentence
 - **Why:** one short paragraph
 - **Considered and rejected:** the alternatives and why they lost
-- **More detail:** link to a technical page or brief, if one exists
+- **More detail:** link to a page or brief, if one exists
 
-## 2026-10-15 — Four work roles, scoped instead of global
+## 2026-11-11 — Storyteller-lite, not an automated game master
 
-- **Decision:** ChristOnline uses four named roles — Developer (the founders building it), Admin (church staff for one church), Manager (heads of a ministry), Helper (volunteers on a team) — and every role except Developer is scoped to a church or ministry rather than granted globally.
-- **Why:** The welcoming app's authority ladder worked, but staff roles were effectively global; scoping keeps Helper privacy promises real and makes Admin mean "this church". Daniel confirms the names before any role code is written.
-- **Considered and rejected:** Keeping a global-admin concept (repeats the prior model's weakness); inventing more tiers (a top-down ladder the team of two cannot govern yet).
-- **More detail:** [rbac-tenancy-design.md](../technical/rbac-tenancy-design.md)
+- **Decision:** The app enforces the mechanics and prompts the Storyteller step by step. A human Storyteller remains responsible for every judgement call the rules leave open — what a poisoned player is told, who the red herring is, when a Minion becomes the Demon.
+- **Why:** Those calls are the game. Automating them produces a worse game and a much bigger product, and in an in-person game someone has to be awake holding the phone anyway. Enforcing the mechanics is what makes a first-time Storyteller viable, which is the actual problem.
+- **Considered and rejected:** Fully automated play with no Storyteller (a research project, and it removes the human judgement that makes the game work); a paper-companion app that only deals roles (honest, but does not solve the problem it is for).
+- **More detail:** [vision.md](vision.md)
 
-## 2026-10-15 — Dev tasks tracked inside the app, not in a tracker
+## 2026-11-11 — In-person first, shareable by link
 
-- **Decision:** Development work is tracked on the in-app dev board at `/dev/board`, available on localhost without login; agents are instructed to read and update it like the team's issue tracker.
-- **Why:** Work items were living in chat prompts that agents rediscovered (or lost) each session. A tracker inside the product the work is on keeps the queue in view while we develop.
-- **Considered and rejected:** Jira or Linear (another paid tool to maintain before launch); a docs-only task list (agents can see it, but it does not stay in view while working).
-- **More detail:** [features/dev-board.md](features/dev-board.md)
+- **Decision:** The v1 use case is a group in one room with their own phones. The tool is public and shareable — anyone can start a game from a link — but it does not attempt remote play.
+- **Why:** In-person removes the single most expensive feature (voice) and matches how the game is actually played. Being shareable without accounts is what makes it useful to other groups.
+- **Considered and rejected:** Remote play with built-in voice (a media platform, not a game aid); invitation-only/private deployment (makes it useless to the friends it is meant for).
+- **Consequence:** The Storyteller runs the game from a phone, not a tablet or laptop, so the Storyteller UI must work at phone width — no grimoire grid.
 
-## 2026-10-12 — Design system: brand tokens in code, brand story in docs
+## 2026-11-11 — Trouble Brewing first; characters are data
 
-- **Decision:** The look is defined once as brand tokens in `packages/design/src/tokens.css` and documented in [`design/brand.md`](design/brand.md); the app maps those tokens onto Tailwind utilities.
-- **Why:** One token source keeps the app and the marketing site in step. AI-written UI that uses token utilities stays on-brand automatically, and switching off the default Tailwind palette makes any drift visible instead of accumulating quietly.
-- **Considered and rejected:** A root-level DESIGN.md file (duplicates the docs structure Daniel already reads end to end) and a JavaScript Tailwind config (Tailwind v4 is configured in CSS, so a second configuration would drift from the tokens the marketing site depends on).
-## 2026-10-09 — No app-server SSR for now
+- **Decision:** Ship one script, Trouble Brewing (22 characters). Model characters as data — alignment, ability text, night-order position, targeting constraints — so later scripts are content drops.
+- **Why:** It is the script every group starts on and the one the tool's first users will know. Making characters data means fixing a rule is an edit to a row, and a second script does not require touching the engine.
+- **Considered and rejected:** All three base scripts at launch (a large content effort before a single playtest); custom/community scripts (requires abilities expressive enough for rules nobody has written yet).
 
-- **Decision:** The UI ships as a browser-only SPA that calls Convex directly for product data.
-- **Why:** Convex already owns persistence, auth, realtime, and authorization. A separate app-server rendering hop would make it harder to reason about ordinary data flow and auth, without giving the current product immediate value.
-- **Considered and rejected:** A fresh SSR template or a server function for every query. They would have added another runtime boundary just when the product needs a narrower one.
+## 2026-11-11 — Explain in one sentence, at the moment it matters
 
-## 2026-10-09 — One shared Convex backend client
+- **Decision:** Every rule is surfaced where it becomes relevant, once, in one sentence. There are no tutorials, no rule pages, and no setup screen full of instructions.
+- **Why:** The first users will have played once. Information delivered before it applies is noise; information delivered at the moment of need is teaching. It also keeps the screens small enough for a phone.
+- **More detail:** [design/principles.md](../design/principles.md)
 
-- **Decision:** Server-side functions reuse a single Convex client, attaching each request's own login token before a call and sending mutations immediately rather than through the client's waiting line.
-- **Why:** Building a fresh client per call wasted work. Sharing one client without per-request tokens could send one person's login with another request's data.
-- **More detail:** `src/library/auth-server.ts`
+## 2026-11-11 — Physical votes, digital record
 
-## 2026-10-09 — Documentation split by audience
+- **Decision:** Voting stays physical — hands in the air at the table. The Storyteller taps which seats voted; the app counts, applies the threshold, and spends ghost votes.
+- **Why:** The raising of hands is the drama. Only the arithmetic is a chore, and the app can do that without asking anyone to look at a screen during the argument.
+- **Considered and rejected:** Phone-based voting (removes the drama and the eye contact); the Storyteller entering a total (loses ghost-vote tracking and the rules guard).
 
-- **Decision:** `docs/` is organised into `product/` (for both of us, plain language), `design/` (flows and prototypes), and `technical/` (architecture).
-- **Why:** Daniel should be able to read the product pages top to bottom without decoding code terms, while technical pages stay precise and link back to product pages for the motivation.
+## 2026-11-11 — No accounts
+
+- **Decision:** Joining a game never requires an account. Seats are held by a device, recoverable with a per-seat PIN or by the Storyteller.
+- **Why:** A tool handed to friends in a group chat has to work immediately. Accounts would gate the only moment that matters — the start of the game.
+- **More detail:** [technical/decisions.md](../technical/decisions.md)

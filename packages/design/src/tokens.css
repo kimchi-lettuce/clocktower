@@ -1,29 +1,37 @@
 /*
- * Single source of truth for the ChristOnline look.
- * Plain CSS variables, so both the app (mapped into Tailwind by the theme)
- * and the marketing site (used directly) stay in step.
- * The "why" behind these values lives in docs/design/brand.md.
+ * PLACEHOLDER PALETTE — inherited from the forked skeleton and not yet chosen.
+ *
+ * Single source of truth for the Clocktower look. Plain CSS variables, mapped
+ * into Tailwind utilities by apps/app/src/styles/app.css. Values here are
+ * neutral and temporary: replace them (and the --night-* set) when the game's
+ * palette is designed. See docs/design/principles.md — night screens must be
+ * dim, so the night tokens are part of the design, not an afterthought.
  */
 :root {
   /* Color — core */
-  --brand-ink: #1a1b2e;
-  --brand-ink-muted: #565a72;
-  --brand-surface: #faf9f7;
-  --brand-card: #ffffff;
-  --brand-line: #e3e0da;
+  --brand-ink: #f2f4f8;
+  --brand-ink-muted: #9aa3b2;
+  --brand-surface: #10131a;
+  --brand-card: #171b24;
+  --brand-line: #262c38;
 
-  /* Color — brand accent */
-  --brand-accent: #2c5f8a;
-  --brand-accent-soft: #e8f0f7;
+  /* Color — accent */
+  --brand-accent: #7aa2f7;
+  --brand-accent-soft: #1b2334;
 
   /* Color — status */
-  --brand-success: #2f7d4f;
-  --brand-warning: #b4711f;
-  --brand-danger: #b3402f;
+  --brand-success: #5ec27a;
+  --brand-warning: #d7a54a;
+  --brand-danger: #e06c75;
+
+  /* Color — night mode (not yet mapped to utilities; deliberately dim) */
+  --brand-night-surface: #07080b;
+  --brand-night-ink: #6b4a4a;
+  --brand-night-accent: #8a3b3b;
 
   /* Type */
-  --brand-font-body: Gordita, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-    "Helvetica Neue", sans-serif;
+  --brand-font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", sans-serif;
 
   /* Shape */
   --brand-radius-sm: 0.25rem;
