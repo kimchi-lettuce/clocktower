@@ -61,8 +61,9 @@ export type StorytellerView = PublicGameView & {
    * the Storyteller decides what the player is told.
    */
   grimoire: (PublicSeatView & {
-    role: RoleView;
-    believedRole: RoleView;
+    /** Null until the Storyteller deals: the lobby has seats but no roles. */
+    role: RoleView | null;
+    believedRole: RoleView | null;
   })[];
   /**
    * Who reads as a Demon to the Fortune Teller. Storyteller-only; it must never
@@ -147,15 +148,14 @@ export function gameView(game: Game, viewer: Viewer): GameView {
       ...publicView,
       kind: "storyteller",
       grimoire: game.seats.map((seat) => {
-        if (!seat.roleId) {
-          throw new Error(`Seat ${seat.seatIndex} has no role`);
-        }
-        const role = resolveCharacter(game, seat.roleId);
-        const believedRole = resolveCharacter(game, seat.believedRoleId ?? seat.roleId);
+        // A lobby has seats but no roles yet, and the Storyteller opens the room
+        // before dealing, so a missing role is a normal state and not an error.
+        const role = seat.roleId ? resolveCharacter(game, seat.roleId) : null;
+        const believed = seat.believedRoleId ? resolveCharacter(game, seat.believedRoleId) : role;
         return {
           ...publicSeatView(seat),
-          role: roleView(role),
-          believedRole: roleView(believedRole),
+          role: role ? roleView(role) : null,
+          believedRole: believed ? roleView(believed) : null,
         };
       }),
       redHerringSeatIndex: game.redHerringSeatIndex,

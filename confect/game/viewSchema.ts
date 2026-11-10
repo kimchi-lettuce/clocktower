@@ -51,8 +51,8 @@ export const StorytellerViewSchema = Schema.Struct({
   grimoire: Schema.Array(
     Schema.Struct({
       ...PublicSeatViewSchema.fields,
-      role: RoleViewSchema,
-      believedRole: RoleViewSchema,
+      role: Schema.NullOr(RoleViewSchema),
+      believedRole: Schema.NullOr(RoleViewSchema),
     }),
   ),
   redHerringSeatIndex: Schema.NullOr(Schema.Number),

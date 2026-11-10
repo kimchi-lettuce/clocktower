@@ -36,7 +36,7 @@ The reasoning behind it is a Storyteller walkthrough kept outside this repo, in 
 
 ## What does not exist yet
 
-- **No voting screen.** A table can be seated, dealt, and walked through the night. Days do not exist yet: nothing moves the game from night to day, and no nomination can be recorded.
+- **No voting screen.** A table can be seated, dealt, and walked through night one. Days do not exist yet: `applyDayResult` is written and tested but nothing calls it, and no nomination can be recorded.
 - **`nightStep` rows are still unwritten.** The wizard derives the sequence and persists only how far along the Storyteller is. Rows become necessary when a step resolves something worth remembering (a target, a lie that was told), which is the ability-resolution work.
 - **No ability resolution.** The Storyteller still does the pointing, nodding and lying; the app says what comes next and what to say.
 - **No QR code**, no seat PIN, no seat reassignment: a lost device currently means the Storyteller cannot hand the seat back.
@@ -46,13 +46,15 @@ The reasoning behind it is a Storyteller walkthrough kept outside this repo, in 
 - The starter auth screens remain (`login-signup-form.tsx`, `_authed/dashboard`), and the dashboard is now a placeholder rather than the demo it used to be.
 - The design tokens are placeholders.
 
+There is a separate guide for simulating a table and for what to check on the day: [testing.md](testing.md).
+
 ## Next three moves
 
 In order; the rest is on the dev board.
 
-1. **The night wizard for the first cast** — persist the night steps, show the Storyteller's instruction from the content (`firstNightNote` / `otherNightNote`), and resolve the eight first-cast abilities with poisoning applied first.
-2. **Seat-tap voting** — the engine resolves votes; the screen that records raised hands is the other half.
-3. **Ability resolution** — what the eight first-cast characters actually learn, with poisoning applied before the ability resolves.
+1. **The day phase** — dawn, nominations, hands-up voting by seat, execution, and the roll into the next night. `applyDayResult` in the engine already does the arithmetic (threshold, ties, ghost votes, deaths, endgame) and is tested at eleven players; what is missing is the Convex functions and the screen. **This is the gate for a real playtest**: an eleven-player game cannot finish without it.
+2. **Ability resolution** — what each character actually learns, with poisoning applied before the ability resolves.
+3. **Wake prompts** — wake lock, a dim reveal, and best-effort vibration, so the Storyteller is not tap-tap-tapping shoulders all night.
 
 ## Open questions
 

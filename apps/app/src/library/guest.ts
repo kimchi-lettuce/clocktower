@@ -9,6 +9,7 @@
  */
 
 const DEVICE_KEY = "clocktower.deviceKey";
+const DEVICE_OVERRIDE = "clocktower.deviceOverride";
 const NAME_KEY = "clocktower.name";
 const GAME_KEY = "clocktower.gameId";
 
@@ -30,7 +31,45 @@ function write(key: string, value: string | null) {
   }
 }
 
+/**
+ * Simulating a table on one machine needs one identity per tab, and localStorage
+ * is shared between tabs. `?device=ana` (localhost only) gives a tab its own
+ * device key, remembered in sessionStorage so it survives navigation inside the
+ * app but not a new tab. Refused anywhere but localhost, so a shared link cannot
+ * hand someone a seat.
+ */
+function localOnlyOverride(): string | null {
+  if (typeof window === "undefined") return null;
+  const host = window.location.hostname;
+  const isLocal =
+    host === "localhost" ||
+    host === "127.0.0.1" ||
+    host === "0.0.0.0" ||
+    host.endsWith(".localhost");
+  if (!isLocal) return null;
+
+  const requested = new URL(window.location.href).searchParams.get("device");
+  if (requested) {
+    const key = `dev-${requested}`.padEnd(8, "-");
+    try {
+      window.sessionStorage.setItem(DEVICE_OVERRIDE, key);
+    } catch {
+      return key;
+    }
+    return key;
+  }
+
+  try {
+    return window.sessionStorage.getItem(DEVICE_OVERRIDE);
+  } catch {
+    return null;
+  }
+}
+
 export function deviceKey(): string {
+  const override = localOnlyOverride();
+  if (override) return override;
+
   const existing = read(DEVICE_KEY);
   if (existing) return existing;
 

@@ -166,10 +166,26 @@ export const STARTER_DEV_TICKETS: StarterDevTicket[] = [
     labels: ["frontend", "product"],
   },
   {
+    title: "Simulate a table on one machine",
+    description:
+      "Guest identity is localStorage, which is shared between tabs, so eleven seats on one laptop was impossible. ?device=ana on localhost gives each tab its own device key, remembered in sessionStorage. Ignored outside localhost so a shared link cannot hand out a seat. Documented in docs/testing.md.",
+    status: "done",
+    priority: "medium",
+    labels: ["devtools", "testing"],
+  },
+  {
     title: "Storyteller night wizard",
     description:
       "One step at a time in the printed order, with the sheet's instruction, a Back and a Next, and the pointer saved on the game row so a locked phone can resume. Only the Storyteller's device can read the sequence or move it. Verified live: an eight-player first night came out as Minions, Demon, Poisoner, Chef, Empath, Fortune Teller, Butler, and a player asking for the night got null.",
     status: "done",
+    priority: "high",
+    labels: ["frontend", "engine", "product"],
+  },
+  {
+    title: "Day phase: dawn, nominations, voting, execution",
+    description:
+      "The engine half exists (applyDayResult: threshold, ties, ghost votes, deaths, endgame, tested at eleven players). Missing: dawn transition, a nominations table write, a vote screen where the Storyteller taps the seats whose hands went up, an execution announcement, and the roll into the next night. This is the gate for the eleven-player playtest.",
+    status: "in-progress",
     priority: "high",
     labels: ["frontend", "engine", "product"],
   },

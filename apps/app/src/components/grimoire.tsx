@@ -30,14 +30,29 @@ export function Grimoire(props: { view: StorytellerView }) {
                   <span class="mr-2 font-mono text-xs text-muted">{seat.seatIndex}</span>
                   {seat.name}
                 </span>
-                <span class={isEvilRole(seat.role) ? "text-sm text-danger" : "text-sm text-accent"}>
-                  {seat.role.name}
-                </span>
+                <Show
+                  when={seat.role}
+                  fallback={<span class="text-sm text-muted">not dealt yet</span>}
+                >
+                  {(role) => (
+                    <span
+                      class={isEvilRole(role()) ? "text-sm text-danger" : "text-sm text-accent"}
+                    >
+                      {role().name}
+                    </span>
+                  )}
+                </Show>
               </div>
 
-              <Show when={seat.believedRole.characterId !== seat.role.characterId}>
+              <Show
+                when={
+                  seat.believedRole &&
+                  seat.role &&
+                  seat.believedRole.characterId !== seat.role.characterId
+                }
+              >
                 <p class="mt-1 text-xs text-warning">
-                  Thinks they are the {seat.believedRole.name} — wake them as that character.
+                  Thinks they are the {seat.believedRole?.name} — wake them as that character.
                 </p>
               </Show>
 

@@ -133,6 +133,30 @@ describe("gameView", () => {
     expect(seat?.believedRole.characterId).toBe(drunk.believedRoleId);
   });
 
+  it("shows a lobby grimoire before anyone is dealt", () => {
+    // The Storyteller opens the room before starting; seats exist, roles do not.
+    const game = gameFromSeed(3);
+    const lobby = {
+      ...game,
+      status: "lobby" as const,
+      nightNumber: 0,
+      dayNumber: 0,
+      seats: game.seats.map((seat) => ({
+        ...seat,
+        roleId: null,
+        believedRoleId: null,
+      })),
+    };
+
+    const view = gameView(lobby, { kind: "storyteller" });
+    if (view.kind !== "storyteller") throw new Error("expected grimoire");
+
+    expect(view.grimoire).toHaveLength(8);
+    expect(view.grimoire.every((seat) => seat.role === null)).toBe(true);
+    expect(view.grimoire.every((seat) => seat.believedRole === null)).toBe(true);
+    expect(view.seats.map((seat) => seat.name)).toContain("Ana");
+  });
+
   it("shows a spectator no roles at all", () => {
     const game = gameFromSeed(11);
     const view = gameView(game, { kind: "spectator" });

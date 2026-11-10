@@ -5,6 +5,7 @@ export * from "./deal";
 export * from "./cast";
 export * from "./vote";
 export * from "./death";
+export * from "./day";
 export * from "./nightOrder";
 export * from "./nightPlan";
 export * from "./view";
