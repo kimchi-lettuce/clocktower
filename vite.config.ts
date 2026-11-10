@@ -3,8 +3,7 @@
 // Router, Tailwind) live in apps/app/vite.config.ts.
 //
 // NOTE: `vp build` / `vp dev` run per app package; this file only governs the
-// workspace-wide commands. confect/** engine tests are not collected yet - add them when the first
-// real engine suite exists (see the dev board).
+// workspace-wide commands.
 import { defineConfig } from "vite-plus";
 
 const generated = ["**/_generated/**", "**/dist/**", "**/node_modules/**"];
@@ -23,7 +22,13 @@ export default defineConfig({
     ignorePatterns: generated,
   },
   test: {
-    include: ["apps/*/src/**/*.{test,spec}.{ts,tsx}", "packages/*/src/**/*.{test,spec}.{ts,tsx}"],
+    include: [
+      "apps/*/src/**/*.{test,spec}.{ts,tsx}",
+      "packages/*/src/**/*.{test,spec}.{ts,tsx}",
+      // Engine tests. `.spec.ts` is reserved for Confect contracts, so engine
+      // suites are `.test.ts` and are collected from confect/ too.
+      "confect/**/*.test.ts",
+    ],
     passWithNoTests: true,
   },
 });

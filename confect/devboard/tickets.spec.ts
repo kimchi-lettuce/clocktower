@@ -105,7 +105,7 @@ export const STARTER_DEV_TICKETS: StarterDevTicket[] = [
     title: "Add confect/ tests to the vp test include glob",
     description:
       "Workspace vite.config.ts only collects apps/*/src and packages/*/src, so engine tests would never run. Add confect/**/*.{test,spec}.ts to test.include before writing the first engine suite.",
-    status: "backlog",
+    status: "done",
     priority: "high",
     labels: ["tooling", "tests"],
   },
@@ -113,7 +113,7 @@ export const STARTER_DEV_TICKETS: StarterDevTicket[] = [
     title: "Define the game domain tables",
     description:
       "game (phase, night number, seed, secret setup decisions, version), seat (real role, believed role, alive, ghost vote, statuses), step (night order entry + resolution), event (append-only log), vote/nomination. Follow docs/technical/architecture.md.",
-    status: "backlog",
+    status: "done",
     priority: "high",
     labels: ["backend", "data-model"],
   },
@@ -121,7 +121,7 @@ export const STARTER_DEV_TICKETS: StarterDevTicket[] = [
     title: "Pure engine skeleton with seeded randomness",
     description:
       "confect/game/engine/ with no Convex or Effect imports: role dealing from a seed, target validation, vote resolution with the computed threshold, death and win-condition checks. Tests call functions directly, no deployment required.",
-    status: "backlog",
+    status: "done",
     priority: "high",
     labels: ["engine", "tests"],
   },

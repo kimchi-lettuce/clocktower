@@ -21,21 +21,24 @@ The reasoning behind it is a Storyteller walkthrough kept outside this repo, in 
 - The forked skeleton, working: Solid SPA, Convex wiring, Confect authoring, Vite+ toolchain, dev board at `/dev/board`
 - A Convex development deployment (created 2026-11-11); `.env.local` holds both `CONVEX_URL`/`CONVEX_SITE_URL` and their `VITE_` mirrors that the app reads
 - Documentation: vision, both decision logs, glossary, design principles, architecture, backend standard
+- **Tables** (`confect/tables/`): `character`, `game`, `seat`, `nightStep`, `nomination`, `gameEvent`
+- **The rules engine** (`confect/game/engine/`): pure modules for composition, seeded dealing, vote thresholds and day resolution, death and win conditions, and night-order construction. 43 tests, collected by `vp test` (the include glob now covers `confect/**/*.test.ts`)
 - A dev board queue carrying the build order
 
 ## What does not exist yet
 
-- **No game tables, no engine, no game screens.** There is no `confect/game/` group; nothing about the game is implemented. The starter auth screens (`login-signup-form.tsx`, `_authed/dashboard`) are church-fork remnants still sitting in the app.
-- No tests are collected: `confect/**` is outside the `vp test` include glob, and there are no suites yet.
+- **No Confect functions and no game screens.** The engine is pure and tested, but nothing calls it yet: there is no `gameView` projection, no `confect/game/*.spec.ts` / `*.impl.ts`, and no lobby, seat claim, or night wizard.
+- **No character ability resolution.** The engine models the sequence and the rules around it; what each character *does* at its step is not implemented, and the fixtures' night-order numbers are placeholders.
+- The starter auth screens remain (`login-signup-form.tsx`, `_authed/dashboard`), and the dashboard is now a placeholder rather than the demo it used to be.
 - The design tokens are placeholders.
 
 ## Next three moves
 
 In order; the rest is on the dev board.
 
-1. **Tables** — game, seat, step, event, vote/nomination, per [architecture.md](technical/architecture.md). Nothing else can be built first.
-2. **Engine skeleton** — `confect/game/engine/`, pure, seeded, with the vote threshold, death, and win-condition rules plus their tests. Wire `confect/**` into the test glob in the same change.
-3. **Character data for the first cast** — Chef, Empath, Fortune Teller, Undertaker, Monk, Drunk, Poisoner, Imp, verified against two independent sources.
+1. **Character data for the first cast** — import Chef, Empath, Fortune Teller, Undertaker, Monk, Drunk, Poisoner, Imp with real night-order positions and exact ability text, verified against two independent sources. The engine's fixtures point at exactly what this replaces.
+2. **`gameView(viewer)` and the leak test** — the projection is the product's safety property, and it is the next thing that cannot be deferred.
+3. **Join flow** — room code, link, QR, guest identity, seat PIN, lobby lock. Without it there is no way to reach a real table.
 
 ## Open questions
 
@@ -50,6 +53,8 @@ Deliberately unresolved; each should be answered by building or by a playtest, n
 | Product name, domain, branding | Parked on purpose. Repo is `clocktower`; the product ships unnamed until it has been played. |
 
 ## How to verify the repo is healthy
+
+Tests: `vp test` (43 passing). Full health check:
 
 ```bash
 pnpm install           # do not regenerate the lockfile casually: see the pnpm override note
