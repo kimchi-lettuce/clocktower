@@ -1,40 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { compositionFor, COMPOSITION } from "./composition";
 import { compositionProblem, dealRoles } from "./deal";
 import { FIRST_CAST, IMP, POISONER, seatsFor, TOWNSFOLK_POOL } from "./fixtures";
 import { createRng, shuffle } from "./rng";
-
-describe("compositionFor", () => {
-  it("gives the standard eight-player mix", () => {
-    expect(compositionFor(8)).toEqual({
-      townsfolk: 5,
-      outsider: 1,
-      minion: 1,
-      demon: 1,
-    });
-  });
-
-  it("covers every supported player count", () => {
-    for (let players = 5; players <= 15; players++) {
-      expect(COMPOSITION[players]).toBeDefined();
-    }
-  });
-
-  it("never has more than one Demon and always totals the player count", () => {
-    for (const [players, composition] of Object.entries(COMPOSITION)) {
-      const total =
-        composition.townsfolk + composition.outsider + composition.minion + composition.demon;
-      expect(total).toBe(Number(players));
-      expect(composition.demon).toBe(1);
-    }
-  });
-
-  it("throws for an unsupported count", () => {
-    expect(() => compositionFor(4)).toThrow();
-    expect(() => compositionFor(16)).toThrow();
-  });
-});
 
 describe("shuffle", () => {
   it("is deterministic for a seed and does not mutate its input", () => {

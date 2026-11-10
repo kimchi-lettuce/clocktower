@@ -56,6 +56,11 @@ export function buildNightSteps(params: { game: Game; nightNumber: number }): Ni
 
   if (!first) return steps;
 
+  // The printed sequence only wakes the Minions and the Demon to introduce each
+  // other when there are seven or more players. Below that there is nothing to
+  // reveal: one Minion knows its Demon already and the Demon has no peers.
+  if (game.seats.length < 7) return steps;
+
   const info: NightStep[] = [
     { orderIndex: 0, characterId: MINION_INFO, actorSeatIndex: null },
     { orderIndex: 0, characterId: DEMON_INFO, actorSeatIndex: null },

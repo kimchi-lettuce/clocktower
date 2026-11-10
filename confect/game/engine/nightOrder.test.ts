@@ -90,6 +90,26 @@ describe("buildNightSteps", () => {
     expect(steps.map((step) => step.orderIndex)).toEqual(steps.map((_, index) => index));
   });
 
+  it("skips minion and demon info below seven players", () => {
+    const six = gameWithRoles(["chef", "empath", "fortune-teller", "monk", "poisoner", "imp"]);
+
+    const steps = buildNightSteps({ game: six, nightNumber: 1 });
+    expect(steps.some((step) => step.characterId === MINION_INFO)).toBe(false);
+    expect(steps.some((step) => step.characterId === DEMON_INFO)).toBe(false);
+
+    const seven = gameWithRoles([
+      "chef",
+      "empath",
+      "fortune-teller",
+      "monk",
+      "butler",
+      "poisoner",
+      "imp",
+    ]);
+    const sevenSteps = buildNightSteps({ game: seven, nightNumber: 1 });
+    expect(sevenSteps[0]!.characterId).toBe(MINION_INFO);
+  });
+
   it("has no synthetic steps after the first night", () => {
     const steps = buildNightSteps({ game: gameWithRoles(ROLES), nightNumber: 3 });
     expect(steps.some((step) => step.characterId === MINION_INFO)).toBe(false);

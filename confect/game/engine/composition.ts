@@ -2,6 +2,12 @@
  * How many of each alignment are in play, by player count. This is the only
  * place the number 8 turns into "5 Townsfolk, 1 Outsider, 1 Minion, 1 Demon".
  *
+ * Values transcribed from the printed composition chart and pinned by a test in
+ * composition.test.ts. From 16 players up the chart does not change: every extra
+ * player is a Traveller, so the fifteen-player row still applies and the extras
+ * are not Townsfolk, Outsiders, Minions, or Demons. Travellers are not
+ * implemented yet, so asking for 16+ is refused rather than guessed at.
+ *
  * Trouble Brewing's Baron adds two Outsiders; when that character exists it
  * modifies this table rather than the dealing code.
  */
@@ -29,7 +35,11 @@ export const COMPOSITION: Readonly<Record<number, Composition>> = {
 export function compositionFor(playerCount: number): Composition {
   const composition = COMPOSITION[playerCount];
   if (!composition) {
-    throw new Error(`No composition for ${playerCount} players (supported: 5-15)`);
+    throw new Error(
+      playerCount > 15
+        ? `${playerCount} players needs Travellers, which are not implemented yet`
+        : `No composition for ${playerCount} players (the chart starts at 5)`,
+    );
   }
   return composition;
 }

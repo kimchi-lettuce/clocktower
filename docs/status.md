@@ -22,13 +22,14 @@ The reasoning behind it is a Storyteller walkthrough kept outside this repo, in 
 - A Convex development deployment (created 2026-11-11); `.env.local` holds both `CONVEX_URL`/`CONVEX_SITE_URL` and their `VITE_` mirrors that the app reads
 - Documentation: vision, both decision logs, glossary, design principles, architecture, backend standard
 - **Tables** (`confect/tables/`): `character`, `game`, `seat`, `nightStep`, `nomination`, `gameEvent`
-- **The rules engine** (`confect/game/engine/`): pure modules for composition, seeded dealing, vote thresholds and day resolution, death and win conditions, and night-order construction. 43 tests, collected by `vp test` (the include glob now covers `confect/**/*.test.ts`)
+- **The rules engine** (`confect/game/engine/`): pure modules for composition, seeded dealing, vote thresholds and day resolution, death and win conditions, and night-order construction. 64 tests, collected by `vp test` (the include glob now covers `confect/**/*.test.ts`)
+- **The Trouble Brewing script** (`confect/game/content/troubleBrewing.ts`): all 22 characters with verbatim ability text, a one-line UI text, alignment, and night-order positions. Ability text and the first-night sequence are verified against two independent references; the other-nights sequence is canonical but not yet confirmed against a printed sheet (ticket on the board)
 - A dev board queue carrying the build order
 
 ## What does not exist yet
 
 - **No Confect functions and no game screens.** The engine is pure and tested, but nothing calls it yet: there is no `gameView` projection, no `confect/game/*.spec.ts` / `*.impl.ts`, and no lobby, seat claim, or night wizard.
-- **No character ability resolution.** The engine models the sequence and the rules around it; what each character *does* at its step is not implemented, and the fixtures' night-order numbers are placeholders.
+- **No character ability resolution.** The engine models the sequence and the rules around it; what each character *does* at its step (who the Fortune Teller is shown, what a poisoned player is told) is not implemented. Nothing yet seeds the content into Convex — the character rows are imported by a mutation that does not exist.
 - The starter auth screens remain (`login-signup-form.tsx`, `_authed/dashboard`), and the dashboard is now a placeholder rather than the demo it used to be.
 - The design tokens are placeholders.
 
@@ -36,9 +37,9 @@ The reasoning behind it is a Storyteller walkthrough kept outside this repo, in 
 
 In order; the rest is on the dev board.
 
-1. **Character data for the first cast** — import Chef, Empath, Fortune Teller, Undertaker, Monk, Drunk, Poisoner, Imp with real night-order positions and exact ability text, verified against two independent sources. The engine's fixtures point at exactly what this replaces.
-2. **`gameView(viewer)` and the leak test** — the projection is the product's safety property, and it is the next thing that cannot be deferred.
-3. **Join flow** — room code, link, QR, guest identity, seat PIN, lobby lock. Without it there is no way to reach a real table.
+1. **`gameView(viewer)` and the leak test** — the projection is the product's safety property, and it is the next thing that cannot be deferred. The content now gives the leak test real character names to look for.
+2. **Join flow** — room code, link, QR, guest identity, seat PIN, lobby lock. Without it there is no way to reach a real table.
+3. **Ability resolution for the first cast** — eight characters, driven by the night steps that already exist.
 
 ## Open questions
 
@@ -54,7 +55,7 @@ Deliberately unresolved; each should be answered by building or by a playtest, n
 
 ## How to verify the repo is healthy
 
-Tests: `vp test` (43 passing). Full health check:
+Tests: `vp test` (64 passing). Full health check:
 
 ```bash
 pnpm install           # do not regenerate the lockfile casually: see the pnpm override note
