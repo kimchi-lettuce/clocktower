@@ -5,3 +5,4 @@ export * from "./deal";
 export * from "./vote";
 export * from "./death";
 export * from "./nightOrder";
+export * from "./view";

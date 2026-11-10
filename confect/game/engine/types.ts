@@ -55,6 +55,11 @@ export type Game = {
   seats: Seat[];
   script: Character[];
   winner: Winner | null;
+  /**
+   * The good player the Fortune Teller is told is a Demon. Storyteller-chosen,
+   * never shown to players (see view.ts).
+   */
+  redHerringSeatIndex: number | null;
 };
 
 export type NightStep = {

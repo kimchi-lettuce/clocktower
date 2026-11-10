@@ -45,6 +45,7 @@ export function gameWithRoles(roleIdBySeat: string[]): Game {
     seed: 1,
     script: SCRIPT,
     winner: null,
+    redHerringSeatIndex: null,
     seats: roleIdBySeat.map((roleId, index) => ({
       seatIndex: index + 1,
       name: SEAT_NAMES[index] ?? `Seat ${index + 1}`,
