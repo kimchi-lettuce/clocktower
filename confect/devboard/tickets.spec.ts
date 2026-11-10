@@ -158,9 +158,9 @@ export const STARTER_DEV_TICKETS: StarterDevTicket[] = [
     labels: ["frontend", "engine", "product"],
   },
   {
-    title: "Storyteller night wizard for the first three characters",
+    title: "Storyteller night wizard for the first cast",
     description:
-      "Poisoner, Fortune Teller, and Imp as the first slice: correct order per night number, illegal targets refused, poisoning applied before it matters, and a 'what do you tell them?' prompt where the app shows the truth privately and the Storyteller supplies the lie.",
+      "Chef, Empath, Fortune Teller, Undertaker, Monk, Drunk, Poisoner, Imp: correct order per night number, illegal targets refused, poisoning applied before the ability resolves, and a 'what do you tell them?' prompt that shows the truth privately and records what the Storyteller actually said. Players never input anything - the Storyteller taps their own phone and the seat's screen reveals the result.",
     status: "backlog",
     priority: "medium",
     labels: ["frontend", "engine", "product"],
@@ -172,14 +172,6 @@ export const STARTER_DEV_TICKETS: StarterDevTicket[] = [
     status: "backlog",
     priority: "medium",
     labels: ["frontend", "night", "design"],
-  },
-  {
-    title: "Dim night mode and haptics",
-    description:
-      "Night screens must not light a face up in a dark room. Dim, dark-red, minimal; prefer a haptic wake over a glowing notification. See docs/design/principles.md.",
-    status: "backlog",
-    priority: "medium",
-    labels: ["frontend", "design"],
   },
   {
     title: "Game expiry and creation rate limiting",

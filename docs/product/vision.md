@@ -30,7 +30,7 @@ Small groups in a lounge room: 5–15 people, one of whom has played before. The
 
 Each rung is a playable release; nothing above the current rung is designed in advance.
 
-1. **Deal and count.** Private roles, physical votes recorded by tapping seats, deaths announced. Playable with a Storyteller who knows the rules.
+1. **Deal and count.** Private roles, physical votes recorded by tapping seats, deaths announced. The first playtest is played at this rung and above, with a curated eight-character cast — digital only, no paper.
 2. **Storyteller-lite.** Night wizard, night order, targeting constraints, poisoning, red herring, ghost votes, executed-character reveals. Playable by a first-time Storyteller.
 3. **Persistence and review.** Event log, replay, post-game review, per-player game history by seat PIN.
 4. **More content.** Sects & Violets, Bad Moon Rising, custom scripts — as data drops, not rewrites.

@@ -30,6 +30,20 @@ Durable product decisions, dated, newest first, written so a player can read the
 - **Why:** It is the script every group starts on and the one the tool's first users will know. Making characters data means fixing a rule is an edit to a row, and a second script does not require touching the engine.
 - **Considered and rejected:** All three base scripts at launch (a large content effort before a single playtest); custom/community scripts (requires abilities expressive enough for rules nobody has written yet).
 
+## 2026-11-11 — Digital from the first playtest, with a curated cast
+
+- **Decision:** The first playtest is played entirely on the app — no paper fallback anywhere, including the night sequence. It uses a fixed cast of eight characters: Chef, Empath, Fortune Teller, Undertaker, Monk, Drunk, Poisoner, Imp.
+- **Why:** Paper fallback would let the app stay unfinished and still appear to work. A fixed cast keeps the first playtest reachable without implementing all 22 Trouble Brewing characters, and that cast already exercises every mechanical lesson the walkthrough surfaced: poisoning before the ability resolves, false information, the red herring, the Drunk's invented reading, protection eating a kill, and ghost votes. Eight characters at eight players is a valid composition (5 Townsfolk / 1 Outsider / 1 Minion / 1 Demon).
+- **Consequence:** The remaining 14 characters are added after the flow is proven, and each is a data row plus its constraints, not a new feature.
+- **Considered and rejected:** Shipping the day phase first and writing the night on paper (defers the hardest screen, which is the one being tested); implementing all 22 characters before any playtest (a large content effort before the first feedback).
+
+## 2026-11-11 — The app shows the truth; the Storyteller decides the lie
+
+- **Decision:** Where information must be false — a poisoned player's answer, the Drunk's reading, the red herring — the app shows the Storyteller the true value privately, offers "give the real answer anyway", records what was actually said, and never invents the lie itself.
+- **Why:** Choosing the lie is the most interesting thing a Storyteller does, and a wrong automatic lie is indistinguishable from a bug. Structured this way, v1 needs no cleverness about plausible-sounding misinformation, and the same screen can later offer generated suggestions without changing the flow.
+- **Considered and rejected:** The app picking a believable lie from the seed (a future option behind the same screen, not a v1 dependency); the app silently telling the poisoned player the truth (breaks the Poisoner's ability).
+- **More detail:** [design/principles.md](../design/principles.md), [technical/decisions.md](../technical/decisions.md)
+
 ## 2026-11-11 — Explain in one sentence, at the moment it matters
 
 - **Decision:** Every rule is surfaced where it becomes relevant, once, in one sentence. There are no tutorials, no rule pages, and no setup screen full of instructions.
