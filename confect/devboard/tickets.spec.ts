@@ -158,6 +158,14 @@ export const STARTER_DEV_TICKETS: StarterDevTicket[] = [
     labels: ["backend", "identity", "product"],
   },
   {
+    title: "Role card and Storyteller grimoire",
+    description:
+      "A player's phone shows their character face down until tapped, then the exact ability text - the believed role if they are the Drunk. The Storyteller's overview is read-only by design: seat, name, role, the Drunk's believed role, the red herring, and ghost-vote state. Every legal change stays in the wizard so there is one place that can refuse an illegal move.",
+    status: "done",
+    priority: "high",
+    labels: ["frontend", "product"],
+  },
+  {
     title: "Seat-tap vote recording",
     description:
       "Storyteller taps raised hands; app counts, compares to the computed threshold, and spends ghost votes. Dead seats with a spent ghost vote are not tappable. Record per-voter so the event log and review work.",

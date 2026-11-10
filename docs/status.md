@@ -26,6 +26,8 @@ The reasoning behind it is a Storyteller walkthrough kept outside this repo, in 
 - **The projection** (`confect/game/engine/view.ts`): one function that takes the full state plus a `Viewer` (`storyteller` / `player` / `spectator`) and returns only what that person may know. `view.test.ts` is the leak test: a property test over 40 deals that walks every `*characterId` in each view and proves no player sees another seat's role, the Drunk never sees the word drunk, and the red herring appears in no view but the Storyteller's
 - **The Convex surface** (`confect/game/games.spec.ts` + `games.impl.ts`): `create` (room code + seed), `join` (seat claim by device), `start` (Storyteller picks the cast; the engine deals and the red herring is chosen), and `view` — the only way to read a game, deriving the viewer from the device key rather than trusting a claim. The view is validated on the way out by `viewSchema.ts`, which rejects an unexpected field such as a grimoire in a player's view
 - **The lobby** (`apps/app/src/routes/index.tsx`): create a room, join by code (or by link — the code travels in `?code=`), see the seats, copy the join link, and the Storyteller deals and begins. Guest identity is a device key in localStorage (`library/guest.ts`), and the lobby talks to Convex through an anonymous client (`library/guest-client.ts`) because there are no accounts
+- **The role card** (`apps/app/src/components/role-card.tsx`): a player's phone shows their character face down until tapped, then the exact published ability text. It shows the Drunk the role they believe they are, because that is the lie the whole game rests on
+- **The grimoire** (`apps/app/src/components/grimoire.tsx`): the Storyteller's read-only overview — seat, name, role, the Drunk's believed role, the red herring, and ghost-vote state
 - **`defaultCast`** (`confect/game/engine/cast.ts`): the chart's share of each alignment in script order, used when the Storyteller does not pick a cast
 - 92 tests, collected by `vp test` (the include glob covers `confect/**/*.test.ts`); `pnpm exec tsc --noEmit -p convex` is clean
 - **The Trouble Brewing script** (`confect/game/content/troubleBrewing.ts`): all 22 characters with verbatim ability text, a one-line UI text, alignment, and night-order positions. Ability text is verified word for word against four independent references, and both night-order sequences match the printed first-night and other-nights sheets line for line. Each character also carries the sheet's Storyteller instruction for its step (`firstNightNote` / `otherNightNote`), which is what the night screen will display
@@ -33,7 +35,7 @@ The reasoning behind it is a Storyteller walkthrough kept outside this repo, in 
 
 ## What does not exist yet
 
-- **No game screens beyond the lobby.** A table can be seated and dealt, but there is no night wizard, no grimoire, no voting screen and no role card.
+- **No night wizard and no voting screen.** A table can be seated, dealt, and read: players see their own card, the Storyteller sees the grimoire.
 - **No QR code**, no seat PIN, no seat reassignment: a lost device currently means the Storyteller cannot hand the seat back.
 - **No night wizard state.** `nightStep` rows exist in the schema but nothing writes them; the engine can build the order, and no function persists it.
 - **No ability resolution.** What each character does at its step is still the Storyteller's job with no app help.
@@ -45,9 +47,9 @@ The reasoning behind it is a Storyteller walkthrough kept outside this repo, in 
 
 In order; the rest is on the dev board.
 
-1. **The role card** — a player's phone shows their own role, one line of ability, and nothing else. It is the smallest screen that makes being dealt a role feel real, and it exercises the projection from a phone for the first time.
-2. **The night wizard for the first cast** — persist the night steps, show the Storyteller's instruction from the content (`firstNightNote` / `otherNightNote`), and resolve the eight first-cast abilities with poisoning applied first.
-3. **Seat-tap voting** — the engine resolves votes; the screen that records raised hands is the other half.
+1. **The night wizard for the first cast** — persist the night steps, show the Storyteller's instruction from the content (`firstNightNote` / `otherNightNote`), and resolve the eight first-cast abilities with poisoning applied first.
+2. **Seat-tap voting** — the engine resolves votes; the screen that records raised hands is the other half.
+3. **Ability resolution** — what the eight first-cast characters actually learn, with poisoning applied before the ability resolves.
 
 ## Open questions
 

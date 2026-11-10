@@ -3,6 +3,9 @@ import { api } from "convex/_generated/api";
 import type { FunctionArgs } from "convex/server";
 import { For, Show, createMemo, createSignal } from "solid-js";
 
+import { RoleCard } from "~/components/role-card";
+import { Grimoire } from "~/components/grimoire";
+import type { PlayerView, StorytellerView } from "~/library/game-types";
 import { useGuestMutation, useGuestQuery } from "~/library/guest-client";
 import {
   codeFromAddress,
@@ -195,6 +198,18 @@ function Room(props: { gameId: GameId; onLeave: () => void }) {
     const current = room();
     return current?.kind === "player" ? current.yourSeatIndex : null;
   };
+  const asPlayer = () => {
+    const current = room();
+    return current?.kind === "player" ? current : null;
+  };
+  const asStoryteller = () => {
+    const current = room();
+    return current?.kind === "storyteller" ? current : null;
+  };
+  const started = () => {
+    const status = room()?.status;
+    return status !== undefined && status !== "lobby";
+  };
   const seated = () => room()?.seats.length ?? 0;
   const shareable = () => (room() ? shareLink(room()!.code) : "");
 
@@ -255,6 +270,15 @@ function Room(props: { gameId: GameId; onLeave: () => void }) {
             </button>
             <p class="mt-2 break-all text-xs text-muted">{shareable()}</p>
           </div>
+
+          <Show when={started()}>
+            <Show when={asPlayer()}>
+              {(player: () => PlayerView) => <RoleCard role={player().yourRole} />}
+            </Show>
+            <Show when={asStoryteller()}>
+              {(storyteller: () => StorytellerView) => <Grimoire view={storyteller()} />}
+            </Show>
+          </Show>
 
           <div class="rounded-lg border border-line bg-card p-5">
             <h2 class="text-base font-semibold text-ink">At the table</h2>
