@@ -23,7 +23,7 @@ The reasoning behind it is a Storyteller walkthrough kept outside this repo, in 
 - Documentation: vision, both decision logs, glossary, design principles, architecture, backend standard
 - **Tables** (`confect/tables/`): `character`, `game`, `seat`, `nightStep`, `nomination`, `gameEvent`
 - **The rules engine** (`confect/game/engine/`): pure modules for composition, seeded dealing, vote thresholds and day resolution, death and win conditions, and night-order construction. 64 tests, collected by `vp test` (the include glob now covers `confect/**/*.test.ts`)
-- **The Trouble Brewing script** (`confect/game/content/troubleBrewing.ts`): all 22 characters with verbatim ability text, a one-line UI text, alignment, and night-order positions. Ability text and the first-night sequence are verified against two independent references; the other-nights sequence is canonical but not yet confirmed against a printed sheet (ticket on the board)
+- **The Trouble Brewing script** (`confect/game/content/troubleBrewing.ts`): all 22 characters with verbatim ability text, a one-line UI text, alignment, and night-order positions. Ability text is verified word for word against four independent references, and both night-order sequences match the printed first-night and other-nights sheets line for line. Each character also carries the sheet's Storyteller instruction for its step (`firstNightNote` / `otherNightNote`), which is what the night screen will display
 - A dev board queue carrying the build order
 
 ## What does not exist yet

@@ -9,11 +9,16 @@ import type { Character } from "../engine/types";
  * Do not paraphrase these strings — a subtly wrong ability teaches a wrong rule.
  *
  * Night-order values are positions in this script's sequence, not a global
- * canon. `firstNightOrder` is the first night's order; `otherNightOrder` applies
+ * canon. They were confirmed line by line against the printed first-night and
+ * other-nights sheets.
+ *
+ * `firstNightNote` and `otherNightNote` are what the Storyteller does at that
+ * step, transcribed from the same sheets, so the app can put the instruction on
+ * screen instead of the Storyteller reading from paper. `firstNightOrder` is the first night's order; `otherNightOrder` applies
  * to every later night. Null means the character does not wake that night.
  *
- * The other-night sequence is the one point here not yet confirmed against a
- * printed sheet: see the dev board ticket. Everything else is verified.
+ * Every part of this file has now been checked against at least three
+ * independent sources, including the printed night-order sheets.
  */
 
 export const SCRIPT_ID = "trouble-brewing";
@@ -34,6 +39,8 @@ export const CHEF = character({
   firstNightOrder: 8,
   otherNightOrder: null,
   targeting: "none",
+  firstNightNote: "Give a finger signal: how many pairs of evil players are neighbours.",
+  otherNightNote: null,
 });
 
 export const EMPATH = character({
@@ -45,6 +52,8 @@ export const EMPATH = character({
   firstNightOrder: 9,
   otherNightOrder: 8,
   targeting: "none",
+  firstNightNote: "Give a finger signal: how many of the Empath's living neighbours are evil.",
+  otherNightNote: "Give a finger signal: how many of the Empath's living neighbours are evil.",
 });
 
 export const FORTUNE_TELLER = character({
@@ -57,6 +66,10 @@ export const FORTUNE_TELLER = character({
   firstNightOrder: 10,
   otherNightOrder: 9,
   targeting: "two-players",
+  firstNightNote:
+    "The Fortune Teller chooses 2 players. Nod if either is the Demon (or the RED HERRING).",
+  otherNightNote:
+    "The Fortune Teller chooses 2 players. Nod if either is the Demon (or the RED HERRING).",
 });
 
 export const UNDERTAKER = character({
@@ -68,6 +81,8 @@ export const UNDERTAKER = character({
   firstNightOrder: null,
   otherNightOrder: 7,
   targeting: "none",
+  firstNightNote: null,
+  otherNightNote: "If a player was executed today, show their character token.",
 });
 
 export const MONK = character({
@@ -79,6 +94,8 @@ export const MONK = character({
   firstNightOrder: null,
   otherNightOrder: 2,
   targeting: "one-player-not-self",
+  firstNightNote: null,
+  otherNightNote: "The Monk chooses a player.",
 });
 
 export const WASHERWOMAN = character({
@@ -90,6 +107,9 @@ export const WASHERWOMAN = character({
   firstNightOrder: 5,
   otherNightOrder: null,
   targeting: "none",
+  firstNightNote:
+    "Show the Townsfolk character token. Point to both the TOWNSFOLK and WRONG players.",
+  otherNightNote: null,
 });
 
 export const LIBRARIAN = character({
@@ -102,6 +122,9 @@ export const LIBRARIAN = character({
   firstNightOrder: 6,
   otherNightOrder: null,
   targeting: "none",
+  firstNightNote:
+    "Show the Outsider character token. Point to both the OUTSIDER and WRONG players.",
+  otherNightNote: null,
 });
 
 export const INVESTIGATOR = character({
@@ -113,6 +136,8 @@ export const INVESTIGATOR = character({
   firstNightOrder: 7,
   otherNightOrder: null,
   targeting: "none",
+  firstNightNote: "Show the Minion character token. Point to both the MINION and WRONG players.",
+  otherNightNote: null,
 });
 
 export const SLAYER = character({
@@ -125,6 +150,8 @@ export const SLAYER = character({
   firstNightOrder: null,
   otherNightOrder: null,
   targeting: "one-player",
+  firstNightNote: null,
+  otherNightNote: null,
 });
 
 export const SOLDIER = character({
@@ -136,6 +163,8 @@ export const SOLDIER = character({
   firstNightOrder: null,
   otherNightOrder: null,
   targeting: "none",
+  firstNightNote: null,
+  otherNightNote: null,
 });
 
 export const RAVENKEEPER = character({
@@ -147,6 +176,9 @@ export const RAVENKEEPER = character({
   firstNightOrder: null,
   otherNightOrder: 6,
   targeting: "one-player",
+  firstNightNote: null,
+  otherNightNote:
+    "If the Ravenkeeper died tonight, the Ravenkeeper chooses a player. Show that player's character token.",
 });
 
 export const MAYOR = character({
@@ -159,6 +191,8 @@ export const MAYOR = character({
   firstNightOrder: null,
   otherNightOrder: null,
   targeting: "none",
+  firstNightNote: null,
+  otherNightNote: null,
 });
 
 export const VIRGIN = character({
@@ -171,6 +205,8 @@ export const VIRGIN = character({
   firstNightOrder: null,
   otherNightOrder: null,
   targeting: "none",
+  firstNightNote: null,
+  otherNightNote: null,
 });
 
 export const BUTLER = character({
@@ -183,6 +219,8 @@ export const BUTLER = character({
   firstNightOrder: 11,
   otherNightOrder: 10,
   targeting: "one-player-not-self",
+  firstNightNote: "The Butler chooses a player.",
+  otherNightNote: "The Butler chooses a player.",
 });
 
 export const DRUNK = character({
@@ -195,6 +233,8 @@ export const DRUNK = character({
   firstNightOrder: null,
   otherNightOrder: null,
   targeting: "none",
+  firstNightNote: null,
+  otherNightNote: null,
 });
 
 export const RECLUSE = character({
@@ -206,6 +246,8 @@ export const RECLUSE = character({
   firstNightOrder: null,
   otherNightOrder: null,
   targeting: "none",
+  firstNightNote: null,
+  otherNightNote: null,
 });
 
 export const SAINT = character({
@@ -217,6 +259,8 @@ export const SAINT = character({
   firstNightOrder: null,
   otherNightOrder: null,
   targeting: "none",
+  firstNightNote: null,
+  otherNightNote: null,
 });
 
 export const POISONER = character({
@@ -228,6 +272,8 @@ export const POISONER = character({
   firstNightOrder: 3,
   otherNightOrder: 1,
   targeting: "one-player",
+  firstNightNote: "The Poisoner chooses a player.",
+  otherNightNote: "The Poisoner chooses a player.",
 });
 
 export const SPY = character({
@@ -240,6 +286,8 @@ export const SPY = character({
   firstNightOrder: 4,
   otherNightOrder: 3,
   targeting: "none",
+  firstNightNote: "Show the Grimoire for as long as the Spy needs.",
+  otherNightNote: "Show the Grimoire for as long as the Spy needs.",
 });
 
 export const SCARLET_WOMAN = character({
@@ -252,6 +300,9 @@ export const SCARLET_WOMAN = character({
   firstNightOrder: null,
   otherNightOrder: 4,
   targeting: "none",
+  firstNightNote: null,
+  otherNightNote:
+    "If the Scarlet Woman became the Imp today, show them the YOU ARE token, then the Imp token.",
 });
 
 export const BARON = character({
@@ -263,6 +314,8 @@ export const BARON = character({
   firstNightOrder: null,
   otherNightOrder: null,
   targeting: "none",
+  firstNightNote: null,
+  otherNightNote: null,
 });
 
 export const IMP = character({
@@ -275,6 +328,9 @@ export const IMP = character({
   firstNightOrder: null,
   otherNightOrder: 5,
   targeting: "one-player",
+  firstNightNote: null,
+  otherNightNote:
+    "The Imp chooses a player. If the Imp chose themselves: replace 1 alive Minion token with a spare Imp token, put the old Imp to sleep, wake the new Imp, show the YOU ARE token, then the Imp token.",
 });
 
 export const TROUBLE_BREWING: Character[] = [
@@ -301,6 +357,16 @@ export const TROUBLE_BREWING: Character[] = [
   BARON,
   IMP,
 ];
+
+/**
+ * Storyteller instructions for the two steps that belong to no character.
+ * Transcribed from the printed night-order sheet, which also states the
+ * condition the engine enforces: both only happen at seven or more players.
+ */
+export const MINION_INFO_NOTE =
+  "Wake all Minions. Show the THIS IS THE DEMON token. Point to the Demon.";
+export const DEMON_INFO_NOTE =
+  "Wake the Demon. Show the THESE ARE YOUR MINIONS token. Point to all Minions. Show the THESE CHARACTERS ARE NOT IN PLAY token. Show 3 not-in-play good character tokens.";
 
 export function findCharacter(characterId: string): Character | undefined {
   return TROUBLE_BREWING.find((candidate) => candidate.characterId === characterId);

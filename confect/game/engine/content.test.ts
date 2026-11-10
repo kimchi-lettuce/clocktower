@@ -77,6 +77,23 @@ describe("Trouble Brewing content", () => {
     }
   });
 
+  it("tells the Storyteller what to do at every step that has one", () => {
+    for (const character of TROUBLE_BREWING) {
+      if (character.firstNightOrder !== null) {
+        expect(character.firstNightNote).toBeTruthy();
+      }
+      if (character.otherNightOrder !== null) {
+        expect(character.otherNightNote).toBeTruthy();
+      }
+      if (character.firstNightOrder === null) {
+        expect(character.firstNightNote).toBeNull();
+      }
+      if (character.otherNightOrder === null) {
+        expect(character.otherNightNote).toBeNull();
+      }
+    }
+  });
+
   it("deals a legal eight-player game from the first playtest cast", () => {
     expect(FIRST_PLAYTEST_CAST).toHaveLength(8);
     expect(compositionProblem(8, FIRST_PLAYTEST_CAST)).toBeNull();

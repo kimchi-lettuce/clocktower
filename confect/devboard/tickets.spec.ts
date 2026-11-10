@@ -126,14 +126,6 @@ export const STARTER_DEV_TICKETS: StarterDevTicket[] = [
     labels: ["engine", "tests"],
   },
   {
-    title: "Confirm the other-night sequence against a printed sheet",
-    description:
-      "All 22 ability texts were verified word for word against two independently maintained references (botc.town and the BotC Script Viewer), and the first-night sequence came from the Script Viewer's night-order table. The other-nights sequence in confect/game/content/troubleBrewing.ts - poisoner, monk, spy, scarlet woman, imp, ravenkeeper, undertaker, empath, fortune teller, butler - is the canonical order but has not been checked against a printed night-order sheet. One photo of that sheet settles it.",
-    status: "backlog",
-    priority: "high",
-    labels: ["content", "verification"],
-  },
-  {
     title: "Import the Trouble Brewing script as character data",
     description:
       "Start from a community script JSON (the hobby format already carries characters, night order, and constraints) instead of typing 22 rows. Nobody here owns a physical copy, so verify with two independent sources that agree (the community JSON plus an official or well-maintained reference), and get a rules-experienced player to review the finished 22 rows. Store the exact ability text as data plus a shortened line for the UI. Adopt the community file shape so a second script is an import, not a rewrite.",

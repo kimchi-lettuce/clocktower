@@ -25,6 +25,9 @@ export type Character = {
   /** Position in every later night's sequence, or null. */
   otherNightOrder: number | null;
   targeting: Targeting;
+  /** What the Storyteller does at this character's step, in the sheet's words. */
+  firstNightNote: string | null;
+  otherNightNote: string | null;
 };
 
 export type GameStatus = "lobby" | "night" | "day" | "ended";
