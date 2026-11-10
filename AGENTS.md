@@ -22,6 +22,7 @@ In-person game night, everyone on their own phone, one human Storyteller. Storyt
 - Update [docs/status.md](docs/status.md) at the end of any session that changes what exists or what is open.
 - Keep durable decisions in [docs/technical/decisions.md](docs/technical/decisions.md) and [docs/product/decisions.md](docs/product/decisions.md), dated, the day they are made.
 - The toolchain is Vite+ (`vp`, e.g. `node_modules/.bin/vp`): `vp build`, `vp dev`, `vp test`, `vp check` (`--fix` to autofix). There is no standalone `vite` binary — never run bare `vite`.
+- **Decide technical details yourself; ask only when it genuinely needs the owner.** The owner defers implementation judgement. Surface a question when the answer is unverifiable from the repo, can't be reversed cheaply, or needs their taste (product shape, naming, what a playtest should test) — otherwise choose, record the decision, and keep going.
 - Commit in small logical slices and push promptly. Never commit secrets, real player data, or `.env.local`.
 - This repo began as a copy of the [christ-online](https://github.com/kimchi-lettuce) skeleton with a fresh history (2026-11-11). Preserve attribution to the upstream TanStack starter: https://github.com/TanStack/router/tree/main/examples/solid/start-convex-better-auth
 
