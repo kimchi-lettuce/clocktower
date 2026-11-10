@@ -5,6 +5,7 @@ import { For, Show, createMemo, createSignal } from "solid-js";
 
 import { RoleCard } from "~/components/role-card";
 import { Grimoire } from "~/components/grimoire";
+import { EyesClosed, NightPanel } from "~/components/night-wizard";
 import type { PlayerView, StorytellerView } from "~/library/game-types";
 import { useGuestMutation, useGuestQuery } from "~/library/guest-client";
 import {
@@ -271,6 +272,15 @@ function Room(props: { gameId: GameId; onLeave: () => void }) {
             <p class="mt-2 break-all text-xs text-muted">{shareable()}</p>
           </div>
 
+          <Show when={current().status === "night"}>
+            <Show when={isStoryteller()}>
+              <NightPanel gameId={props.gameId} />
+            </Show>
+            <Show when={current().kind === "player"}>
+              <EyesClosed nightNumber={current().nightNumber} />
+            </Show>
+          </Show>
+
           <Show when={started()}>
             <Show when={asPlayer()}>
               {(player: () => PlayerView) => <RoleCard role={player().yourRole} />}
@@ -322,15 +332,6 @@ function Room(props: { gameId: GameId; onLeave: () => void }) {
               <Show when={startProblem()}>
                 {(message) => <p class="mt-2 text-sm text-danger">{message()}</p>}
               </Show>
-            </div>
-          </Show>
-
-          <Show when={isStoryteller() && current().status !== "lobby"}>
-            <div class="rounded-lg border border-line bg-card p-5">
-              <p class="text-sm text-muted">
-                The night wizard is the next screen. Until it exists, run the night from the printed
-                order — the app already knows the sequence and what to say at each step.
-              </p>
             </div>
           </Show>
 

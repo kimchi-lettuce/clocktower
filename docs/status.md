@@ -26,6 +26,7 @@ The reasoning behind it is a Storyteller walkthrough kept outside this repo, in 
 - **The projection** (`confect/game/engine/view.ts`): one function that takes the full state plus a `Viewer` (`storyteller` / `player` / `spectator`) and returns only what that person may know. `view.test.ts` is the leak test: a property test over 40 deals that walks every `*characterId` in each view and proves no player sees another seat's role, the Drunk never sees the word drunk, and the red herring appears in no view but the Storyteller's
 - **The Convex surface** (`confect/game/games.spec.ts` + `games.impl.ts`): `create` (room code + seed), `join` (seat claim by device), `start` (Storyteller picks the cast; the engine deals and the red herring is chosen), and `view` — the only way to read a game, deriving the viewer from the device key rather than trusting a claim. The view is validated on the way out by `viewSchema.ts`, which rejects an unexpected field such as a grimoire in a player's view
 - **The lobby** (`apps/app/src/routes/index.tsx`): create a room, join by code (or by link — the code travels in `?code=`), see the seats, copy the join link, and the Storyteller deals and begins. Guest identity is a device key in localStorage (`library/guest.ts`), and the lobby talks to Convex through an anonymous client (`library/guest-client.ts`) because there are no accounts
+- **The night wizard** (`apps/app/src/components/night-wizard.tsx`): one step at a time in the printed order, with the sheet's own instruction for each wake, so the Storyteller's phone replaces the night-order sheet. Progress is persisted on the game row (`nightStepIndex`), so a phone can be locked mid-night and resumed. `nightPlan` in the engine builds the sequence; only the Storyteller's device key can read it or move it
 - **The role card** (`apps/app/src/components/role-card.tsx`): a player's phone shows their character face down until tapped, then the exact published ability text. It shows the Drunk the role they believe they are, because that is the lie the whole game rests on
 - **The grimoire** (`apps/app/src/components/grimoire.tsx`): the Storyteller's read-only overview — seat, name, role, the Drunk's believed role, the red herring, and ghost-vote state
 - **`defaultCast`** (`confect/game/engine/cast.ts`): the chart's share of each alignment in script order, used when the Storyteller does not pick a cast
@@ -35,7 +36,9 @@ The reasoning behind it is a Storyteller walkthrough kept outside this repo, in 
 
 ## What does not exist yet
 
-- **No night wizard and no voting screen.** A table can be seated, dealt, and read: players see their own card, the Storyteller sees the grimoire.
+- **No voting screen.** A table can be seated, dealt, and walked through the night. Days do not exist yet: nothing moves the game from night to day, and no nomination can be recorded.
+- **`nightStep` rows are still unwritten.** The wizard derives the sequence and persists only how far along the Storyteller is. Rows become necessary when a step resolves something worth remembering (a target, a lie that was told), which is the ability-resolution work.
+- **No ability resolution.** The Storyteller still does the pointing, nodding and lying; the app says what comes next and what to say.
 - **No QR code**, no seat PIN, no seat reassignment: a lost device currently means the Storyteller cannot hand the seat back.
 - **No night wizard state.** `nightStep` rows exist in the schema but nothing writes them; the engine can build the order, and no function persists it.
 - **No ability resolution.** What each character does at its step is still the Storyteller's job with no app help.

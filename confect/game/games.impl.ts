@@ -10,6 +10,7 @@ import { SCRIPT_ID, TOWNSFOLK, TROUBLE_BREWING, findCharacter } from "./content/
 import { defaultCast } from "./engine/cast";
 import { compositionFor } from "./engine/composition";
 import { dealRoles } from "./engine/deal";
+import { nightPlan } from "./engine/nightPlan";
 import { gameView } from "./engine/view";
 import games from "./games.spec";
 
@@ -61,6 +62,7 @@ const create = FunctionImpl.make(databaseSchema, games, "create", (args) =>
       storyTellerDeviceKey: args.deviceKey,
       lobbyLocked: false,
       lastActivityAt: Date.now(),
+      nightStepIndex: null,
       redHerringSeatIndex: null,
       winner: null,
       endedReason: null,
@@ -222,6 +224,7 @@ const start = FunctionImpl.make(databaseSchema, games, "start", (args) =>
       nightNumber: 1,
       dayNumber: 0,
       lobbyLocked: true,
+      nightStepIndex: 0,
       redHerringSeatIndex,
       version: game.version + 1,
       lastActivityAt: Date.now(),
@@ -257,10 +260,85 @@ const view = FunctionImpl.make(databaseSchema, games, "view", (args) =>
   }).pipe(Effect.orDie),
 );
 
+const night = FunctionImpl.make(databaseSchema, games, "night", (args) =>
+  Effect.gen(function* () {
+    const reader = yield* DatabaseReader;
+
+    const found = yield* reader.table("game").get(args.gameId).pipe(Effect.option);
+    if (Option.isNone(found)) return null;
+
+    const game = found.value;
+    // The sequence is the Storyteller's business: it names who is woken and in
+    // what order, which is exactly what a player must not learn.
+    if (game.storyTellerDeviceKey !== args.deviceKey) return null;
+    if (game.status !== "night") return null;
+
+    const script = scriptFor(game.scriptId);
+    if (!script) return null;
+
+    const seats = yield* reader
+      .table("seat")
+      .index("by_game_and_seat_index", (q) => q.eq("gameId", game._id))
+      .take(MAX_SEATS);
+
+    const steps = nightPlan(toEngineGame({ game, seats, script }), game.nightNumber);
+    const stepIndex = Math.min(
+      Math.max(game.nightStepIndex ?? 0, 0),
+      Math.max(steps.length - 1, 0),
+    );
+
+    return { nightNumber: game.nightNumber, stepIndex, steps };
+  }).pipe(Effect.orDie),
+);
+
+const setNightStep = FunctionImpl.make(databaseSchema, games, "setNightStep", (args) =>
+  Effect.gen(function* () {
+    const reader = yield* DatabaseReader;
+    const writer = yield* DatabaseWriter;
+
+    const found = yield* reader.table("game").get(args.gameId).pipe(Effect.option);
+    if (Option.isNone(found)) {
+      return { ok: false, reason: "no-such-game" } as const;
+    }
+
+    const game = found.value;
+    if (game.storyTellerDeviceKey !== args.deviceKey) {
+      return { ok: false, reason: "not-storyteller" } as const;
+    }
+    if (game.status !== "night") {
+      return { ok: false, reason: "not-night" } as const;
+    }
+
+    const script = scriptFor(game.scriptId);
+    if (!script) return { ok: false, reason: "no-such-game" } as const;
+
+    const seats = yield* reader
+      .table("seat")
+      .index("by_game_and_seat_index", (q) => q.eq("gameId", game._id))
+      .take(MAX_SEATS);
+
+    const steps = nightPlan(toEngineGame({ game, seats, script }), game.nightNumber);
+
+    if (args.stepIndex < 0 || args.stepIndex >= steps.length) {
+      return { ok: false, reason: "no-such-step" } as const;
+    }
+
+    yield* writer.table("game").patch(game._id, {
+      nightStepIndex: args.stepIndex,
+      lastActivityAt: Date.now(),
+      version: game.version + 1,
+    });
+
+    return { ok: true } as const;
+  }).pipe(Effect.orDie),
+);
+
 export default GroupImpl.make(databaseSchema, games).pipe(
   Layer.provide(create),
   Layer.provide(join),
   Layer.provide(start),
   Layer.provide(view),
+  Layer.provide(night),
+  Layer.provide(setNightStep),
   GroupImpl.finalize,
 );

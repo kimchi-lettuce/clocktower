@@ -25,6 +25,12 @@ export default Table.make(() =>
     storyTellerDeviceKey: Schema.NullOr(Schema.String),
     lobbyLocked: Schema.Boolean,
     lastActivityAt: Schema.Number,
+    /*
+     * How far through the current night's sequence the Storyteller is. Null for a
+     * lobby game, and absent on rows written before the wizard existed, which is
+     * why it is optional as well as nullable: Convex validates the old rows too.
+     */
+    nightStepIndex: Schema.optional(Schema.NullOr(Schema.Number)),
     redHerringSeatIndex: Schema.NullOr(Schema.Number),
     winner: Schema.NullOr(Schema.Literals(["good", "evil"])),
     endedReason: Schema.NullOr(Schema.String),

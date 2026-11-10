@@ -77,3 +77,20 @@ export const GameViewSchema = Schema.Union([
   PlayerViewSchema,
   SpectatorViewSchema,
 ]);
+
+const NightPlanStepSchema = Schema.Struct({
+  orderIndex: Schema.Number,
+  characterId: Schema.String,
+  actorSeatIndex: Schema.NullOr(Schema.Number),
+  seatName: Schema.NullOr(Schema.String),
+  roleName: Schema.String,
+  instruction: Schema.String,
+  synthetic: Schema.Boolean,
+  ability: Schema.NullOr(Schema.String),
+});
+
+export const NightViewSchema = Schema.Struct({
+  nightNumber: Schema.Number,
+  stepIndex: Schema.Number,
+  steps: Schema.Array(NightPlanStepSchema),
+});

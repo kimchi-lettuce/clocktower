@@ -2,7 +2,7 @@ import { FunctionSpec, GroupSpec } from "@confect/core";
 import * as Schema from "effect/Schema";
 
 import { Id } from "../_generated/id";
-import { GameViewSchema } from "./viewSchema";
+import { GameViewSchema, NightViewSchema } from "./viewSchema";
 
 /*
  * The game's public surface: create a room, join it, start it, and look at it.
@@ -77,6 +77,27 @@ const start = FunctionSpec.publicMutation({
   returns: () => Schema.Union([StartSuccess, StartFailure]),
 });
 
+const night = FunctionSpec.publicQuery({
+  name: "night",
+  args: () => ({ gameId: GameId, deviceKey: DeviceKey }),
+  returns: () => Schema.NullOr(NightViewSchema),
+});
+
+const NightStepFailure = Schema.Struct({
+  ok: Schema.Literal(false),
+  reason: Schema.Literals(["no-such-game", "not-storyteller", "not-night", "no-such-step"]),
+});
+const NightStepSuccess = Schema.Struct({ ok: Schema.Literal(true) });
+const setNightStep = FunctionSpec.publicMutation({
+  name: "setNightStep",
+  args: () => ({
+    gameId: GameId,
+    deviceKey: DeviceKey,
+    stepIndex: Schema.Number,
+  }),
+  returns: () => Schema.Union([NightStepSuccess, NightStepFailure]),
+});
+
 const view = FunctionSpec.publicQuery({
   name: "view",
   args: () => ({
@@ -90,4 +111,6 @@ export default GroupSpec.make()
   .addFunction(create)
   .addFunction(join)
   .addFunction(start)
-  .addFunction(view);
+  .addFunction(view)
+  .addFunction(night)
+  .addFunction(setNightStep);

@@ -6,4 +6,5 @@ export * from "./cast";
 export * from "./vote";
 export * from "./death";
 export * from "./nightOrder";
+export * from "./nightPlan";
 export * from "./view";

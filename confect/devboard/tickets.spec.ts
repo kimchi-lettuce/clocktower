@@ -166,6 +166,14 @@ export const STARTER_DEV_TICKETS: StarterDevTicket[] = [
     labels: ["frontend", "product"],
   },
   {
+    title: "Storyteller night wizard",
+    description:
+      "One step at a time in the printed order, with the sheet's instruction, a Back and a Next, and the pointer saved on the game row so a locked phone can resume. Only the Storyteller's device can read the sequence or move it. Verified live: an eight-player first night came out as Minions, Demon, Poisoner, Chef, Empath, Fortune Teller, Butler, and a player asking for the night got null.",
+    status: "done",
+    priority: "high",
+    labels: ["frontend", "engine", "product"],
+  },
+  {
     title: "Seat-tap vote recording",
     description:
       "Storyteller taps raised hands; app counts, compares to the computed threshold, and spends ghost votes. Dead seats with a spent ghost vote are not tappable. Record per-voter so the event log and review work.",
