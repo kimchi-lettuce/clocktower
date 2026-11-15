@@ -10,6 +10,13 @@ Durable product decisions, dated, newest first, written so a player can read the
 - **Considered and rejected:** the alternatives and why they lost
 - **More detail:** link to a page or brief, if one exists
 
+## 2026-11-11 — Build on a fork of botc.town, not on this app
+
+- **Decision:** The product ships as a fork of [BOTC Townsquare](https://botc.town) (MIT, <https://github.com/brennenho/botc>), developed at `~/Developer/clocktower-town` and pushed to `github.com/kimchi-lettuce/botc`. This repository stays as the rules engine and the content of record — the place where the mechanics are proved — but no longer carries the user interface.
+- **Why:** The parts that take weeks are already built, tested and deployed there: a private grimoire, a six-character code with an invite link and QR, player phones with no accounts, live presence, reminder tokens, demon bluffs, a night-order sheet with per-step instructions, and three scripts. Their Trouble Brewing ability text matches ours word for word across all 20 shared characters. What is genuinely missing is the day phase — their schema has `alive` and `ghost_vote_available` and no votes at all — and a player screen that leads with the player's own character. Those two are exactly what our engine and our taste supply, and every increment of the fork is playable, while this app cannot be played until the day phase lands.
+- **Considered and rejected:** Finishing this repository (largest effort, and it rebuilds a lobby, grimoire and join flow that exist for free); our own frontend against botc.town's hosted backend (no API contract, so a refactor breaks a game mid-night; their infrastructure carrying our friends' games; and our leak guarantee would be rented rather than owned); a from-scratch rewrite in the same stack (replaces working code with the same design).
+- **Consequences:** The Solid UI work here is retired — the screens and the design reasoning carry over, the components do not. The rules engine, the vote and day arithmetic, and the verified night-order content port across because they are pure TypeScript. Official token art now ships with the product (upstream syncs TPI's published toolmaker resources), so the "no official art" principle is retired; the ability text stays faithful and the product stays free. See [landscape.md](landscape.md) for the evidence and the fork's `docs/FORK-PLAN.md` for the build order.
+
 ## 2026-11-11 — Storyteller-lite, not an automated game master
 
 - **Decision:** The app enforces the mechanics and prompts the Storyteller step by step. A human Storyteller remains responsible for every judgement call the rules leave open — what a poisoned player is told, who the red herring is, when a Minion becomes the Demon.

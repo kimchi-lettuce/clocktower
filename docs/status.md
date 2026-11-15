@@ -13,11 +13,14 @@ The design was settled in one session on 2026-11-11. The durable output is in th
 - [technical/decisions.md](technical/decisions.md) — the architecture calls, including the projection rule and the engine boundary
 - [design/principles.md](design/principles.md) — how screens behave
 - [product/glossary.md](product/glossary.md) — the shared vocabulary
+- [product/landscape.md](product/landscape.md) — what already exists (botc.town, Digital Grimoire, botc.app, Blocktower), the gap, and the three paths. Read it before proposing a feature as "missing"
 
 The reasoning behind it is a Storyteller walkthrough kept outside this repo, in the owner's Obsidian vault at `Projects/clocktower/storyteller-brief.html`. It simulates an eight-player game step by step and is the source of most of the requirements. If a decision here seems arbitrary, that document is usually why.
 
 ## What exists
 
+- **The product is now the fork.** `~/Developer/clocktower-town`, pushed to `github.com/kimchi-lettuce/botc`, forked from [BOTC Townsquare](https://github.com/brennenho/botc) (MIT). It runs locally against Supabase in Docker (`colima`), and its own `docs/FORK-PLAN.md` is the build order. What is in *this* repository is the reference implementation of the rules.
+- **Ported so far into the fork:** the vote engine (`src/lib/engine/vote.ts` — threshold, nomination legality, ghost-vote spending, tallies, execution outcome, 13 unit tests), a phone-first player screen (town strip plus role card) with an integration test, and a `pnpm dev` that no longer needs a PostHog account.
 - The forked skeleton, working: Solid SPA, Convex wiring, Confect authoring, Vite+ toolchain, dev board at `/dev/board`
 - A Convex development deployment (created 2026-11-11); `.env.local` holds both `CONVEX_URL`/`CONVEX_SITE_URL` and their `VITE_` mirrors that the app reads
 - Documentation: vision, both decision logs, glossary, design principles, architecture, backend standard
@@ -50,10 +53,10 @@ There is a separate guide for simulating a table and for what to check on the da
 
 ## Next three moves
 
-In order; the rest is on the dev board.
+In order; the rest is on the dev board. **These now happen in the fork**, not here.
 
-1. **The day phase** — dawn, nominations, hands-up voting by seat, execution, and the roll into the next night. `applyDayResult` in the engine already does the arithmetic (threshold, ties, ghost votes, deaths, endgame) and is tested at eleven players; what is missing is the Convex functions and the screen. **This is the gate for a real playtest**: an eleven-player game cannot finish without it.
-2. **Ability resolution** — what each character actually learns, with poisoning applied before the ability resolves.
+1. **The day phase in the fork** — nominations, hands-up voting by seat, execution, roll into the next night. The arithmetic is already ported (`src/lib/engine/vote.ts`); what is missing is the persistence (a `day_state` column or nomination tables — upstream has no vote schema at all), the RPC, and the Storyteller's day panel. **This is the gate for a real playtest**: an eleven-player game cannot finish without it.
+2. **Ability resolution** — what each character actually learns, with poisoning applied before the ability resolves. Same gap here and there.
 3. **Wake prompts** — wake lock, a dim reveal, and best-effort vibration, so the Storyteller is not tap-tap-tapping shoulders all night.
 
 ## Open questions
@@ -67,6 +70,7 @@ Deliberately unresolved; each should be answered by building or by a playtest, n
 | What if the Storyteller's phone dies mid-game? | Server state is authoritative; another device can take the Storyteller seat. Not designed. |
 | Does the day phase have any timer? | No timers in v1. The Storyteller paces the room. |
 | Product name, domain, branding | Parked on purpose. Repo is `clocktower`; the product ships unnamed until it has been played. |
+| Build here, fork botc.town, or stop and use free tools? | **Answered 2026-11-11: fork botc.town.** See [landscape.md](product/landscape.md) and the day's decision entry. Remaining question is whether a first-time Storyteller is actually the wedge — one playtest with a real table decides it. |
 
 ## How to verify the repo is healthy
 
