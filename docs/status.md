@@ -20,7 +20,7 @@ The reasoning behind it is a Storyteller walkthrough kept outside this repo, in 
 ## What exists
 
 - **The product is now the fork.** `~/Developer/clocktower-town`, pushed to `github.com/kimchi-lettuce/botc`, forked from [BOTC Townsquare](https://github.com/brennenho/botc) (MIT). It runs locally against Supabase in Docker (`colima`), and its own `docs/FORK-PLAN.md` is the build order. What is in *this* repository is the reference implementation of the rules.
-- **Ported so far into the fork:** the vote engine (`src/lib/engine/vote.ts` — threshold, nomination legality, ghost-vote spending, tallies, execution outcome, 13 unit tests), a phone-first player screen (town strip plus role card) with an integration test, and a `pnpm dev` that no longer needs a PostHog account.
+- **Ported so far into the fork:** the vote engine (`src/lib/engine/vote.ts` — threshold, nomination legality, ghost-vote spending, tallies, execution outcome, 13 unit tests), the day phase on top of it (`games.day_state`, `closeDay`, `POST /api/day` — nominations recorded, rule-breaking ones dropped before the tally, ghost votes spent, outcome frozen), a phone-first player screen (town strip plus role card), and a `pnpm dev` that no longer needs a PostHog account. 196 unit and 35 integration tests pass there.
 - The forked skeleton, working: Solid SPA, Convex wiring, Confect authoring, Vite+ toolchain, dev board at `/dev/board`
 - A Convex development deployment (created 2026-11-11); `.env.local` holds both `CONVEX_URL`/`CONVEX_SITE_URL` and their `VITE_` mirrors that the app reads
 - Documentation: vision, both decision logs, glossary, design principles, architecture, backend standard
@@ -55,9 +55,9 @@ There is a separate guide for simulating a table and for what to check on the da
 
 In order; the rest is on the dev board. **These now happen in the fork**, not here.
 
-1. **The day phase in the fork** — nominations, hands-up voting by seat, execution, roll into the next night. The arithmetic is already ported (`src/lib/engine/vote.ts`); what is missing is the persistence (a `day_state` column or nomination tables — upstream has no vote schema at all), the RPC, and the Storyteller's day panel. **This is the gate for a real playtest**: an eleven-player game cannot finish without it.
-2. **Ability resolution** — what each character actually learns, with poisoning applied before the ability resolves. Same gap here and there.
-3. **Wake prompts** — wake lock, a dim reveal, and best-effort vibration, so the Storyteller is not tap-tap-tapping shoulders all night.
+1. **The Storyteller's day panel** — tap seats for hands-up votes, show the live threshold, end the day and display the outcome. The storage and the arithmetic are done; only the screen is missing. **This is the gate for a real playtest**: the table can now be counted, but not yet from a phone.
+2. **Ability resolution** — what each character actually learns, with poisoning applied before the ability resolves. Same gap here and there, and the real remaining differentiator.
+3. ~~**Wake prompts**~~ — **dropped 2026-11-16.** A wake lock and a dim reveal are polish on a problem the table solves by tapping a shoulder, and they cost real work on iOS. Revisit only if a playtest says otherwise.
 
 ## Open questions
 
