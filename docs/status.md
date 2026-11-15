@@ -56,7 +56,7 @@ There is a separate guide for simulating a table and for what to check on the da
 In order; the rest is on the dev board. **These now happen in the fork**, not here.
 
 1. **Ability resolution** — what each character actually learns, with poisoning applied before the ability resolves, the red herring, and the Storyteller's "give the real answer anyway" path. The day phase now records and counts; this is where the app starts helping rather than recording.
-2. **One playtest with a real table** — a first-time Storyteller, one full game. It is the only thing that can falsify the premise, and it is now possible end to end: seat, deal, night one, a day with nominations and an execution, night two.
+2. **One playtest with a real table** — a first-time Storyteller, one full game. It is the only thing that can falsify the premise, and it is now possible end to end: seat, deal, night one, a day with nominations and an execution, night two. On a phone the Storyteller screen requires landscape (upstream's portrait notice); a tablet or laptop avoids that constraint.
 3. ~~**Wake prompts**~~ — **dropped 2026-11-16.** A wake lock and a dim reveal are polish on a problem the table solves by tapping a shoulder, and they cost real work on iOS. Revisit only if a playtest says otherwise.
 
 ## Open questions
