@@ -65,7 +65,8 @@ Deliberately unresolved; each should be answered by building or by a playtest, n
 
 | Question | Current leaning |
 |---|---|
-| Does the app enforce "one nomination per player per day, one nomination against"? | **Not yet, and the earlier leaning was wrong.** The engine refuses dead nominators, dead nominees and self-nominations; it does not count nominations per seat, and the day panel records what the table says. Check the rulebook before enforcing it. |
+| Does the app enforce "one nomination per player per day, one nomination against"? | **Yes, since 2026-11-16.** `checkDayNominations` keeps the first legal nomination per seat in each direction and reports later duplicates as not counted; the pickers drop spent seats. Two independent rulebooks and the official glossary agree. |
+| May a player nominate themselves, or nominate a dead player? | **Unresolved, refused for now.** One rulebook allows self-nomination (the glossary is silent); two say a dead player cannot be nominated while one says a dead player can be executed to burn the day. The reference engine has always refused both. Verify against the physical rulebook. |
 | What does a dead player's phone show for the rest of the game? | Their role card, greyed, plus their ghost-vote state. |
 | What if the Storyteller's phone dies mid-game? | Server state is authoritative; another device can take the Storyteller seat. Not designed. |
 | Does the day phase have any timer? | No timers in v1. The Storyteller paces the room. |
