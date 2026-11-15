@@ -2,6 +2,14 @@
 
 Dated architecture decisions. Newest first. Carried-over entries (pre-2026-11-11) come from the christ-online skeleton this repo was forked from; the reasoning still applies, the church specifics do not.
 
+## 2026-11-16 — The day record is public, and rides on the player snapshot
+
+- **Decision:** `games.day_state` (today's nominations, hands per nomination, and the frozen outcome) is projected to players as `PlayerSnapshot.day`, unchanged. The Storyteller's day panel and the player's read-only day sheet read the same document.
+- **Why:** Everything in it happened in the room: the hands were visible, the threshold is public arithmetic, and the executed player is named out loud. It contains no roles, no alignment, and no hidden tokens. A second, player-shaped copy would be one more mapper to keep in step with the rules engine, and the projection rule already requires classifying new fields, not inventing new shapes.
+- **Consequence:** A field added to `day_state` is public by default and must be checked against that claim before it ships. Today's shape is safe: seat indexes, vote counts, tallies, spent ghost votes, the executed seat, and a timestamp. Anything the Storyteller decides privately (the real answer to an information role, the red herring) must not be stored here.
+- **Also decided with it:** the count does not kill the executed player. `POST /api/day` freezes the outcome and spends the ghost votes that were raised; life and death stay edits to the grimoire, so an execution, a Slayer shot and a night kill land in one place.
+- **Considered and rejected:** A separate `PlayerDayView` with the raw state stripped down (two shapes, no safety gained); keeping the day record Storyteller-only (players would have to ask what happened, which the app should answer).
+
 ## 2026-11-11 — Per-viewer projections only; no full-state reads
 
 - **Decision:** The single read model is `gameView(viewer)`. The server decides who the caller is, then returns one of three shapes: Storyteller (everything), player (own role, own information history, public state), spectator (public state only). There is no query that returns the whole game, and no debug query that does either.
